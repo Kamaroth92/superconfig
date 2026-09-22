@@ -1,0 +1,9 @@
+# Push config remotely
+NIX_SSHOPTS="-F /home/taneb/.ssh/config" nixos-rebuild switch --flake ~/config#melchior --target-host melchior --sudo --ask-sudo-password 
+
+# Generate private age from ssh key
+mkdir -p ~/.config/sops/age
+sudo nix shell nixpkgs#ssh-to-age -c ssh-to-age -private-key -i /etc/ssh/ssh_host_ed25519_key -o ~/.config/sops/age/keys.txt
+
+# Generate public age from private age
+nix shell nixpkgs#age -c age-keygen -y ~/.config/sops/age/keys.txt
