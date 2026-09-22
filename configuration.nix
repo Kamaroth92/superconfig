@@ -16,6 +16,8 @@
 
   sops.age.keyFile = "/home/taneb/.config/sops/age/keys.txt";
   sops.secrets.example-key = { };
+ 
+  #system.rebuild.enableNg = true;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
