@@ -16,6 +16,15 @@
 
   sops.age.keyFile = "/home/taneb/.config/sops/age/keys.txt";
   sops.secrets.example-key = { };
+
+  services.openssh = {
+    enable = true;
+    ports = [ 2222 ]; # Replace 2222 with your desired port number
+
+    # Ensure the firewall automatically opens this new port
+    openFirewall = true;
+  };
+
  
   #system.rebuild.enableNg = true;
 

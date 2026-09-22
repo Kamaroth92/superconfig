@@ -1,0 +1,68 @@
+{ config, pkgs, inputs, ... }:
+
+{
+  imports = [
+    inputs.sops-nix.nixosModules.sops
+  ];
+
+  # ── sops ────────────────────────────────────────────────
+  sops.defaultSopsFormat = "yaml";
+  #sops.age.keyFile = "~/.config/sops/age/keys.txt";
+  sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+  sops.secrets.example-key = { };
+
+  # ── Nix ─────────────────────────────────────────────────
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.trusted-users = [ "taneb" "root" ];
+  nixpkgs.config.allowUnfree = true;
+
+  # ── Locale & time ───────────────────────────────────────
+  time.timeZone = "Australia/Melbourne";
+  i18n.defaultLocale = "en_AU.UTF-8";
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS        = "en_AU.UTF-8";
+    LC_IDENTIFICATION = "en_AU.UTF-8";
+    LC_MEASUREMENT    = "en_AU.UTF-8";
+    LC_MONETARY       = "en_AU.UTF-8";
+    LC_NAME           = "en_AU.UTF-8";
+    LC_NUMERIC        = "en_AU.UTF-8";
+    LC_PAPER          = "en_AU.UTF-8";
+    LC_TELEPHONE      = "en_AU.UTF-8";
+    LC_TIME           = "en_AU.UTF-8";
+  };
+
+  # ── SSH ─────────────────────────────────────────────────
+  services.openssh = {
+    enable = true;
+    ports = [ 2222 ];
+    openFirewall = true;
+    settings.PasswordAuthentication = false;
+  };
+
+  # ── User ────────────────────────────────────────────────
+  users.users."taneb" = {
+    isNormalUser = true;
+    description = "taneb";
+    extraGroups = [ "networkmanager" "wheel" ];
+    openssh.authorizedKeys.keys = [
+      # Add your public keys here so SSH works from the start
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIELUDBV8NN48h0DzhVpAmLmKT5sm+pipAPxKq7enWDwm melchior"
+    ];
+  };
+
+  # ── Shared packages ─────────────────────────────────────
+  environment.systemPackages = with pkgs; [
+    vim
+    wget
+    git
+    gnumake
+    home-manager
+    sops
+    rbw
+    pinentry-curses
+    claude-code
+    bitwarden-cli
+  ];
+
+  system.stateVersion = "26.05";
+}
