@@ -11,31 +11,69 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    colmena.url = "github:zhaofengli/colmena";
+
     # nix-index-database = {
     #   url = "github:nix-community/nix-index-database";
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
   };
 
-  outputs = { self, nixpkgs, ... }@inputs: {
-    nixosConfigurations = {
+  outputs =
+    {
+      self,
+      nixpkgs,
+      colmena,
+      ...
+    }@inputs:
+    {
+      nixosConfigurations = {
 
-      melchior = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./modules/common.nix
-          ./hosts/melchior
-        ];
+        melchior = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./modules/common.nix
+            ./hosts/melchior
+          ];
+        };
+
+        wsl-builder = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./modules/common.nix
+            ./hosts/wsl-builder
+          ];
+        };
+
       };
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
+      colmenaHive = colmena.lib.makeHive self.outputs.colmena;
 
-      wsl-builder = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./modules/common.nix
-          ./hosts/wsl-builder
-        ];
+      colmena = {
+        meta = {
+          nixpkgs = import nixpkgs {
+            system = "x86_64-linux";
+          };
+          specialArgs = { inherit inputs; };
+        };
+
+        melchior = {
+          deployment = {
+            targetHost = "melchior";
+            targetPort = 2222;
+            targetUser = "taneb";
+          };
+          imports = [ ./modules/common.nix ];
+        };
+
+        wsl-builder = {
+          deployment = {
+            targetHost = "wsl-builder";
+            targetPort = 2222;
+            targetUser = "taneb";
+          };
+          imports = [ ./modules/common.nix ];
+        };
       };
-
     };
-  };
 }

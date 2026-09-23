@@ -1,4 +1,9 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   imports = [
@@ -10,26 +15,32 @@
   #sops.age.keyFile = "~/.config/sops/age/keys.txt";
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
   #sops.defaultSopsFile = ../../secrets/secrets.yaml;
-  sops.secrets.example-key = { };
+  #sops.secrets.example-key = { };
 
   # ── Nix ─────────────────────────────────────────────────
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.trusted-users = [ "taneb" "root" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+  nix.settings.trusted-users = [
+    "taneb"
+    "root"
+  ];
   nixpkgs.config.allowUnfree = true;
 
   # ── Locale & time ───────────────────────────────────────
   time.timeZone = "Australia/Melbourne";
   i18n.defaultLocale = "en_AU.UTF-8";
   i18n.extraLocaleSettings = {
-    LC_ADDRESS        = "en_AU.UTF-8";
+    LC_ADDRESS = "en_AU.UTF-8";
     LC_IDENTIFICATION = "en_AU.UTF-8";
-    LC_MEASUREMENT    = "en_AU.UTF-8";
-    LC_MONETARY       = "en_AU.UTF-8";
-    LC_NAME           = "en_AU.UTF-8";
-    LC_NUMERIC        = "en_AU.UTF-8";
-    LC_PAPER          = "en_AU.UTF-8";
-    LC_TELEPHONE      = "en_AU.UTF-8";
-    LC_TIME           = "en_AU.UTF-8";
+    LC_MEASUREMENT = "en_AU.UTF-8";
+    LC_MONETARY = "en_AU.UTF-8";
+    LC_NAME = "en_AU.UTF-8";
+    LC_NUMERIC = "en_AU.UTF-8";
+    LC_PAPER = "en_AU.UTF-8";
+    LC_TELEPHONE = "en_AU.UTF-8";
+    LC_TIME = "en_AU.UTF-8";
   };
 
   # ── SSH ─────────────────────────────────────────────────
@@ -44,7 +55,10 @@
   users.users."taneb" = {
     isNormalUser = true;
     description = "taneb";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     openssh.authorizedKeys.keys = [
       # Add your public keys here so SSH works from the start
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIELUDBV8NN48h0DzhVpAmLmKT5sm+pipAPxKq7enWDwm melchior"
@@ -56,6 +70,7 @@
     vim
     wget
     git
+    colmena
     gnumake
     home-manager
     sops
@@ -63,6 +78,7 @@
     pinentry-curses
     claude-code
     bitwarden-cli
+    nixfmt
   ];
 
   system.stateVersion = "26.05";

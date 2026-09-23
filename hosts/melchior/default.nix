@@ -1,11 +1,21 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   imports = [
     ./hardware-configuration.nix
+    ./claude.nix
   ];
 
   networking.hostName = "melchior";
+
+  environment.variables = {
+    "TESTENV" = "THISISATEST!";
+  };
 
   # sops file lives next to this host file
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
@@ -42,10 +52,15 @@
     jack.enable = true;
     wireplumber.extraConfig."51-bluez-config" = {
       "monitor.bluez.properties" = {
-        "bluez5.enable-sbc-xq"    = true;
-        "bluez5.enable-msbc"      = true;
+        "bluez5.enable-sbc-xq" = true;
+        "bluez5.enable-msbc" = true;
         "bluez5.enable-hw-volume" = true;
-        "bluez5.roles" = [ "a2dp_sink" "a2dp_source" "hfp_hf" "hfp_ag" ];
+        "bluez5.roles" = [
+          "a2dp_sink"
+          "a2dp_source"
+          "hfp_hf"
+          "hfp_ag"
+        ];
       };
     };
   };
