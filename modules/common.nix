@@ -75,7 +75,7 @@
   home-manager.useGlobalPkgs = true; # reuse NixOS pkgs (allowUnfree)
   home-manager.backupFileExtension = "backup";
   home-manager.users.taneb = {
-    imports = [ ./home.nix ];
+    imports = [ ../users/taneb.nix ];
   };
 
   # ── Shared packages ─────────────────────────────────────

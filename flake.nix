@@ -14,7 +14,7 @@
     colmena.url = "github:zhaofengli/colmena";
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -30,11 +30,11 @@
       nixosConfigurations = {
 
         melchior = nixpkgs.lib.nixosSystem {
-          specialArgs = { 
-            inherit inputs; 
-            hostSecretsPath = ./secrets/melchior.yaml; 
+          specialArgs = {
+            inherit inputs;
+            hostSecretsPath = ./secrets/melchior.yaml;
           };
-          
+
           modules = [
             ./modules/common.nix
             ./hosts/melchior
@@ -42,11 +42,11 @@
         };
 
         wsl-builder = nixpkgs.lib.nixosSystem {
-          specialArgs = { 
-            inherit inputs; 
+          specialArgs = {
+            inherit inputs;
             hostSecretsPath = ./secrets/wsl-builder.yaml;
           };
-          
+
           modules = [
             ./modules/common.nix
             ./hosts/wsl-builder
