@@ -15,7 +15,7 @@
   sops.defaultSopsFormat = "yaml";
   #sops.age.keyFile = "~/.config/sops/age/keys.txt";
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-  #sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  sops.defaultSopsFile = ../secrets/secrets.yaml;
   #sops.secrets.example-key = { };
   sops.secrets.deepseek-api-key = {
     owner = config.users.users.taneb.name;
@@ -70,10 +70,11 @@
   };
 
   # ── home-manager ────────────────────────────────────────
+  # NixOS config is exposed to home modules as `nixosConfig` by the
+  # home-manager NixOS module itself.
+  home-manager.useGlobalPkgs = true; # reuse NixOS pkgs (allowUnfree)
+  home-manager.backupFileExtension = "backup";
   home-manager.users.taneb = {
-    extraSpecialArgs = {
-      nixosConfig = config;
-    };
     imports = [ ./home.nix ];
   };
 

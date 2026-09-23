@@ -19,7 +19,4 @@
 
   wsl.enable = true;
   wsl.defaultUser = "taneb";
-
-  # stateVersion is already in common.nix, so drop it here
-  sops.defaultSopsFile = ../../secrets/secrets.yaml;
 }

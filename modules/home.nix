@@ -19,7 +19,7 @@
 
   programs.bash = {
     enable = true;
-    shellInit = ''
+    initExtra = ''
       export ANTHROPIC_AUTH_TOKEN="$(cat ${nixosConfig.sops.secrets.deepseek-api-key.path})"
     '';
   };

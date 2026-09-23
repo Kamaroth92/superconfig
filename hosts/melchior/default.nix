@@ -8,7 +8,6 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./claude.nix
   ];
 
   networking.hostName = "melchior";
@@ -16,9 +15,6 @@
   environment.variables = {
     "TESTENV" = "THISISATEST!";
   };
-
-  # sops file lives next to this host file
-  sops.defaultSopsFile = ../../secrets/secrets.yaml;
 
   # ── Boot ────────────────────────────────────────────────
   boot.loader.systemd-boot.enable = true;
