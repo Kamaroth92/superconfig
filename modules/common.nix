@@ -2,6 +2,7 @@
   config,
   pkgs,
   inputs,
+  hostSecretsPath,
   ...
 }:
 
@@ -15,10 +16,11 @@
   sops.defaultSopsFormat = "yaml";
   #sops.age.keyFile = "~/.config/sops/age/keys.txt";
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-  sops.defaultSopsFile = ../secrets/secrets.yaml;
+  sops.defaultSopsFile = ../secrets/common.yaml;
   #sops.secrets.example-key = { };
   sops.secrets.deepseek-api-key = {
     owner = config.users.users.taneb.name;
+    sopsFile = hostSecretsPath;
   };
 
   # ── Nix ─────────────────────────────────────────────────

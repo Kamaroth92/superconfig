@@ -17,11 +17,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # nix-index-database = {
-    #   url = "github:nix-community/nix-index-database";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
   };
 
   outputs =
@@ -35,7 +30,11 @@
       nixosConfigurations = {
 
         melchior = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
+          specialArgs = { 
+            inherit inputs; 
+            hostSecretsPath = ./secrets/melchior.yaml; 
+          };
+          
           modules = [
             ./modules/common.nix
             ./hosts/melchior
@@ -43,7 +42,11 @@
         };
 
         wsl-builder = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
+          specialArgs = { 
+            inherit inputs; 
+            hostSecretsPath = ./secrets/wsl-builder.yaml;
+          };
+          
           modules = [
             ./modules/common.nix
             ./hosts/wsl-builder
