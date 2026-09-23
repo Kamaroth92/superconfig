@@ -7,4 +7,6 @@ creation_rules:
     - age:
       - *melchior
       - *wsl_builder
-
+  - path_regex: secrets/melchior\.yaml$
+    key_groups:                                                                                                                                 
+    - age: [*melchior]
