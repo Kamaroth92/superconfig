@@ -8,5 +8,9 @@ creation_rules:
       - *melchior
       - *wsl_builder
   - path_regex: secrets/melchior\.yaml$
-    key_groups:                                                                                                                                 
+    key_groups:
     - age: [*melchior]
+  - path_regex: secrets/wsl_builder\.yaml$
+    key_groups:
+    - age: [*wsl_builder]
+
