@@ -8,6 +8,7 @@
 {
   imports = [
     inputs.sops-nix.nixosModules.sops
+    inputs.home-manager.nixosModules.home-manager
   ];
 
   # ── sops ────────────────────────────────────────────────
@@ -16,6 +17,9 @@
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
   #sops.defaultSopsFile = ../../secrets/secrets.yaml;
   #sops.secrets.example-key = { };
+  sops.secrets.deepseek-api-key = {
+    owner = config.users.users.taneb.name;
+  };
 
   # ── Nix ─────────────────────────────────────────────────
   nix.settings.experimental-features = [
@@ -65,20 +69,21 @@
     ];
   };
 
+  # ── home-manager ────────────────────────────────────────
+  home-manager.users.taneb = {
+    extraSpecialArgs = {
+      nixosConfig = config;
+    };
+    imports = [ ./home.nix ];
+  };
+
   # ── Shared packages ─────────────────────────────────────
   environment.systemPackages = with pkgs; [
-    vim
     wget
-    git
     colmena
     gnumake
-    home-manager
     sops
-    rbw
     pinentry-curses
-    claude-code
-    bitwarden-cli
-    nixfmt
   ];
 
   system.stateVersion = "26.05";
