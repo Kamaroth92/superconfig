@@ -63,6 +63,10 @@
             system = "x86_64-linux";
           };
           specialArgs = { inherit inputs; };
+          nodeSpecialArgs = {
+            melchior.hostSecretsPath = ./secrets/melchior.yaml;
+            wsl-builder.hostSecretsPath = ./secrets/wsl-builder.yaml;
+          };
         };
 
         melchior = {
@@ -71,7 +75,10 @@
             targetPort = 2222;
             targetUser = "taneb";
           };
-          imports = [ ./modules/common.nix ];
+          imports = [
+            ./modules/common.nix
+            ./hosts/melchior
+          ];
         };
 
         wsl-builder = {
@@ -80,7 +87,10 @@
             targetPort = 2222;
             targetUser = "taneb";
           };
-          imports = [ ./modules/common.nix ];
+          imports = [
+            ./modules/common.nix
+            ./hosts/wsl-builder
+          ];
         };
       };
     };
