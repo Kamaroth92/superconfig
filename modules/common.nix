@@ -85,6 +85,7 @@
     gnumake
     sops
     pinentry-curses
+    rbw
   ];
 
   system.stateVersion = "26.05";

@@ -29,6 +29,12 @@
         email = "tane.barriball@gmail.com";
       };
     };
+    rbw = {
+      settings = {
+        email = "tanebarriball@gmail.com";
+        settings.pinentry = "pinentry-curses";
+      };
+    };
   };
 
   home.sessionVariables = {
@@ -39,5 +45,7 @@
     ANTHROPIC_DEFAULT_HAIKU_MODEL = "deepseek-v4-flash";
     CLAUDE_CODE_SUBAGENT_MODEL = "deepseek-flash";
     CLAUDE_CODE_EFFORT_LEVEL = "max";
+
+    SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/rbw/ssh-agent-socket";
   };
 }

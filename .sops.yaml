@@ -2,15 +2,12 @@ keys:
   - &melchior age16z5tcjvw0zh4q7df3hwsa66wdsd7cckmr3cpgh7hwamdea68lpts94sae3
   - &wsl_builder age1ksap09kgagxk8jkzmqel5df5vukcec62sq57x4cmyxcmmw50ue0sctm0k9
 creation_rules:
-  - path_regex: secrets/secrets.yaml$
+  - path_regex: secrets/common\.yaml$
     key_groups:
-    - age:
-      - *melchior
-      - *wsl_builder
+    - age: [*melchior, *wsl_builder]
   - path_regex: secrets/melchior\.yaml$
     key_groups:
     - age: [*melchior]
   - path_regex: secrets/wsl-builder\.yaml$
     key_groups:
     - age: [*wsl_builder]
-
