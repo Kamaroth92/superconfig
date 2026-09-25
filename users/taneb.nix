@@ -12,7 +12,6 @@
 
   home.packages = with pkgs; [
     claude-code
-    bitwarden-cli
   ];
 
   programs = {
@@ -46,6 +45,6 @@
     CLAUDE_CODE_SUBAGENT_MODEL = "deepseek-flash";
     CLAUDE_CODE_EFFORT_LEVEL = "max";
 
-    SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/rbw/ssh-agent-socket";
+    SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/rbw/ssh-agent-socket";
   };
 }

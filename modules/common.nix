@@ -10,6 +10,7 @@
   imports = [
     inputs.sops-nix.nixosModules.sops
     inputs.home-manager.nixosModules.home-manager
+    ./system-packages.nix
   ];
 
   # ── sops ────────────────────────────────────────────────
@@ -77,16 +78,6 @@
   home-manager.users.taneb = {
     imports = [ ../users/taneb.nix ];
   };
-
-  # ── Shared packages ─────────────────────────────────────
-  environment.systemPackages = with pkgs; [
-    wget
-    colmena
-    gnumake
-    sops
-    pinentry-curses
-    rbw
-  ];
 
   system.stateVersion = "26.05";
 }

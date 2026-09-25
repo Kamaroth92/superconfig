@@ -2,6 +2,7 @@
 NIX_SSHOPTS="-F /home/taneb/.ssh/config" nixos-rebuild switch --flake ~/config#melchior --target-host melchior --sudo --ask-sudo-password 
 
 # Generate private age from ssh key
+# Only needed if not using ssh keys
 mkdir -p ~/.config/sops/age
 sudo nix shell nixpkgs#ssh-to-age -c ssh-to-age -private-key -i /etc/ssh/ssh_host_ed25519_key -o ~/.config/sops/age/keys.txt
 
