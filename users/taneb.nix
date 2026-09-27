@@ -12,6 +12,7 @@
 
   home.packages = with pkgs; [
     claude-code
+    pinentry-curses
   ];
 
   programs = {
@@ -29,11 +30,13 @@
       };
     };
     rbw = {
+      enable = true;
       settings = {
         email = "tanebarriball@gmail.com";
         settings.pinentry = "pinentry-curses";
       };
     };
+    zsh.enable = true;
   };
 
   home.sessionVariables = {

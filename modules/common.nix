@@ -65,9 +65,9 @@
       "wheel"
     ];
     openssh.authorizedKeys.keys = [
-      # Add your public keys here so SSH works from the start
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIELUDBV8NN48h0DzhVpAmLmKT5sm+pipAPxKq7enWDwm melchior"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPPE+hjAIQBKvf3GxYrcX4ImpbPPz17ZdCpL4C8a3Hif taneb-user-key"
     ];
+    shell = pkgs.zsh;
   };
 
   # ── home-manager ────────────────────────────────────────

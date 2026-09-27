@@ -9,8 +9,6 @@
     colmena
     gnumake
     sops
-    pinentry-curses
-    rbw
     bws
     vim
     git
