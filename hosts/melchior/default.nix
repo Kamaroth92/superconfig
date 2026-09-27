@@ -12,17 +12,12 @@
 
   networking.hostName = "melchior";
 
-  environment.variables = {
-    "TESTENV" = "THISISATEST!";
-  };
-
   # ── Boot ────────────────────────────────────────────────
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # ── Networking ──────────────────────────────────────────
-  networking.wireless.enable = true;
   networking.networkmanager.enable = true;
 
   # ── Desktop (GNOME) ─────────────────────────────────────

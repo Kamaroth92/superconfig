@@ -14,5 +14,6 @@
     git
     wget
     nixfmt
+    nh
   ];
 }

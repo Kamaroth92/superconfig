@@ -56,6 +56,9 @@
     settings.PasswordAuthentication = false;
   };
 
+  # ── Shell ───────────────────────────────────────────────
+  programs.zsh.enable = true;
+
   # ── User ────────────────────────────────────────────────
   users.users."taneb" = {
     isNormalUser = true;
@@ -78,6 +81,5 @@
   home-manager.users.taneb = {
     imports = [ ../users/taneb.nix ];
   };
-
   system.stateVersion = "26.05";
 }

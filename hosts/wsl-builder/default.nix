@@ -9,7 +9,6 @@
 {
   imports = [
     inputs.nixos-wsl.nixosModules.default
-    #./hardware-configuration.nix
   ];
 
   networking.hostName = "wsl-builder";

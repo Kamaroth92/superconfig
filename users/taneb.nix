@@ -33,10 +33,15 @@
       enable = true;
       settings = {
         email = "tanebarriball@gmail.com";
-        settings.pinentry = "pinentry-curses";
+        pinentry = pkgs.pinentry-curses;
       };
     };
-    zsh.enable = true;
+    zsh = {
+      enable = true;
+      initContent = ''
+        export ANTHROPIC_AUTH_TOKEN="$(cat ${nixosConfig.sops.secrets.deepseek-api-key.path})"
+      '';
+    };
   };
 
   home.sessionVariables = {
@@ -47,6 +52,7 @@
     ANTHROPIC_DEFAULT_HAIKU_MODEL = "deepseek-v4-flash";
     CLAUDE_CODE_SUBAGENT_MODEL = "deepseek-flash";
     CLAUDE_CODE_EFFORT_LEVEL = "max";
+    NH_FLAKE = "${config.home.homeDirectory}/config";
 
     SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/rbw/ssh-agent-socket";
   };
