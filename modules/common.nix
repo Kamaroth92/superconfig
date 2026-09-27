@@ -57,8 +57,14 @@
   };
 
   # ── Shell ───────────────────────────────────────────────
-  programs.zsh.enable = true;
-
+  programs.zsh = {
+    enable = true;
+    ohMyZsh = {
+      enable = true;
+      plugins = [ "git" "sudo" "docker" "kubectl" "terraform" ];
+      theme = "robbyrussell";
+    };
+  };
   # ── User ────────────────────────────────────────────────
   users.users."taneb" = {
     isNormalUser = true;

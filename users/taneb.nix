@@ -34,6 +34,7 @@
       settings = {
         email = "tanebarriball@gmail.com";
         pinentry = pkgs.pinentry-curses;
+        lock_timeout = 3600;
       };
     };
     zsh = {
