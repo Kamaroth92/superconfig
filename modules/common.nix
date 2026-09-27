@@ -9,7 +9,7 @@
 {
   imports = [
     inputs.sops-nix.nixosModules.sops
-    inputs.home-manager.nixosModules.home-manager
+    ../users/taneb/default.nix
     ./system-packages.nix
   ];
 
@@ -61,7 +61,13 @@
     enable = true;
     ohMyZsh = {
       enable = true;
-      plugins = [ "git" "sudo" "docker" "kubectl" "terraform" ];
+      plugins = [
+        "git"
+        "sudo"
+        "docker"
+        "kubectl"
+        "terraform"
+      ];
       theme = "robbyrussell";
     };
   };
@@ -79,13 +85,5 @@
     shell = pkgs.zsh;
   };
 
-  # ── home-manager ────────────────────────────────────────
-  # NixOS config is exposed to home modules as `nixosConfig` by the
-  # home-manager NixOS module itself.
-  home-manager.useGlobalPkgs = true; # reuse NixOS pkgs (allowUnfree)
-  home-manager.backupFileExtension = "backup";
-  home-manager.users.taneb = {
-    imports = [ ../users/taneb.nix ];
-  };
   system.stateVersion = "26.05";
 }
