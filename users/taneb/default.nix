@@ -1,26 +1,32 @@
 {
   config,
-  lib,
   pkgs,
   ...
 }:
 
-let
-  rbwConfig = pkgs.writeText "rbw-config.json" (
-    builtins.toJSON {
-      email = "tanebarriball@gmail.com";
-      lock_timeout = 3600;
-      pinentry = lib.getExe pkgs.pinentry-curses;
-    }
-  );
-in
-
 {
-  # ── Per-user packages ──────────────────────────────────
-  users.users.taneb.packages = with pkgs; [
-    claude-code
-    pinentry-curses
-  ];
+  # ── User ────────────────────────────────────────────────
+  users.users."taneb" = {
+    isNormalUser = true;
+    description = "taneb";
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPPE+hjAIQBKvf3GxYrcX4ImpbPPz17ZdCpL4C8a3Hif taneb-user-key"
+    ];
+    shell = pkgs.zsh;
+  };
+
+  # ── home-manager ───────────────────────────────────────
+  home-manager.users."taneb".imports = [ ./home.nix ];
+
+  # ── sops (user secrets) ────────────────────────────────
+  # sops.secrets.deepseek-api-key = {
+  #   owner = config.users.users.taneb.name;
+  #   sopsFile = ../../secrets/taneb.yaml;
+  # };
 
   # ── Environment variables ──────────────────────────────
   environment.sessionVariables = {
@@ -37,33 +43,5 @@ in
   };
 
   # ── Shell init ─────────────────────────────────────────
-  programs.bash = {
-    enable = true;
-    interactiveShellInit = ''
-      export ANTHROPIC_AUTH_TOKEN="$(cat ${config.sops.secrets.deepseek-api-key.path})"
-    '';
-  };
 
-  programs.zsh.interactiveShellInit = ''
-    export ANTHROPIC_AUTH_TOKEN="$(cat ${config.sops.secrets.deepseek-api-key.path})"
-  '';
-
-  # ── Git ────────────────────────────────────────────────
-  programs.git = {
-    enable = true;
-    config.user = {
-      name = "Tane Barriball";
-      email = "tane.barriball@gmail.com";
-    };
-  };
-
-  # ── rbw ────────────────────────────────────────────────
-  system.activationScripts.rbwConfig = {
-    deps = [ "users" ];
-    text = ''
-      install -d -m 0755 -o taneb -g users ${config.users.users.taneb.home}/.config
-      install -d -m 0700 -o taneb -g users ${config.users.users.taneb.home}/.config/rbw
-      ln -sfn ${rbwConfig} ${config.users.users.taneb.home}/.config/rbw/config.json
-    '';
-  };
 }

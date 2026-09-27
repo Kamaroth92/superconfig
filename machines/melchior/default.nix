@@ -8,6 +8,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ../../users/taneb/default.nix
   ];
 
   networking.hostName = "melchior";

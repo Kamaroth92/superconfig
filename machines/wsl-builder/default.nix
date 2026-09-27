@@ -9,6 +9,7 @@
 {
   imports = [
     inputs.nixos-wsl.nixosModules.default
+    ../../users/taneb/default.nix
   ];
 
   networking.hostName = "wsl-builder";
