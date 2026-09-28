@@ -5,6 +5,8 @@
 }:
 
 {
+  imports = [ ./shell.nix ];
+
   # ── User ────────────────────────────────────────────────
   users.users."taneb" = {
     isNormalUser = true;
@@ -30,11 +32,13 @@
 
   # ── Environment variables ──────────────────────────────
   environment.sessionVariables = {
-    ANTHROPIC_BASE_URL = "https://api.deepseek.com/anthropic";
+    # ANTHROPIC_BASE_URL = "https://api.deepseek.com/anthropic";
+    ANTHROPIC_BASE_URL = "https://openrouter.ai/api";
     ANTHROPIC_MODEL = "deepseek-v4-pro[1m]";
     ANTHROPIC_DEFAULT_OPUS_MODEL = "deepseek-v4-pro[1m]";
     ANTHROPIC_DEFAULT_SONNET_MODEL = "deepseek-v4-pro[1m]";
     ANTHROPIC_DEFAULT_HAIKU_MODEL = "deepseek-v4-flash";
+    ANTHROPIC_API_KEY = "";
     CLAUDE_CODE_SUBAGENT_MODEL = "deepseek-flash";
     CLAUDE_CODE_EFFORT_LEVEL = "max";
     NH_FLAKE = "${config.users.users.taneb.home}/config";

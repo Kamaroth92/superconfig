@@ -49,21 +49,5 @@
     settings.PasswordAuthentication = false;
   };
 
-  # ── Shell ───────────────────────────────────────────────
-  programs.zsh = {
-    enable = true;
-    ohMyZsh = {
-      enable = true;
-      plugins = [
-        "git"
-        "sudo"
-        "docker"
-        "kubectl"
-        "terraform"
-      ];
-      theme = "robbyrussell";
-    };
-  };
-
   system.stateVersion = "26.05";
 }

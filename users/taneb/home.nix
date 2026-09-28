@@ -8,9 +8,15 @@
   home.stateVersion = "26.05";
   home.file."repos/.keep".text = "";
 
+  # Custom oh-my-zsh theme with SSH indicator
+  home.file.".oh-my-zsh/custom/themes/robbyrussell-ssh.zsh-theme".source = ./robbyrussell-ssh.zsh-theme;
+
   sops = {
     age.sshKeyPaths = [ "${config.home.homeDirectory}/.ssh/id_ed25519" ];
     secrets."deepseek-api-key" = {
+      sopsFile = ../../secrets/taneb.yaml;
+    };
+    secrets."openrouter-api-key" = {
       sopsFile = ../../secrets/taneb.yaml;
     };
   };
@@ -18,14 +24,14 @@
   programs.bash = {
     enable = true;
     initExtra = ''
-      export ANTHROPIC_AUTH_TOKEN="$(cat ${config.sops.secrets."deepseek-api-key".path})"
+      export ANTHROPIC_AUTH_TOKEN="$(cat ${config.sops.secrets."openrouter-api-key".path})"
     '';
   };
 
   programs.zsh = {
     enable = true;
     initContent = ''
-      export ANTHROPIC_AUTH_TOKEN="$(cat ${config.sops.secrets."deepseek-api-key".path})"
+      export ANTHROPIC_AUTH_TOKEN="$(cat ${config.sops.secrets."openrouter-api-key".path})"
     '';
   };
 
