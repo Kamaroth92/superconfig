@@ -15,5 +15,8 @@
     wget
     nixfmt
     nh
+    kubectl
+    kubectx 
+    kubernetes-helm
   ];
 }

@@ -19,6 +19,9 @@
     secrets."openrouter-api-key" = {
       sopsFile = ../../secrets/taneb.yaml;
     };
+    secrets."kubeconfig" = {
+      sopsFile = ../../secrets/kubeconfig.yaml;
+    };
   };
 
   programs.bash = {
@@ -39,6 +42,11 @@
   home.packages = with pkgs; [
     claude-code
   ];
+
+  home.sessionVariables = {
+    KUBECONFIG = config.sops.secrets."kubeconfig".path;
+    TESTING = "yes";
+  };
 
   # ── Git ────────────────────────────────────────────────
   programs.git = {
