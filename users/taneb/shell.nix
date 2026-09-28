@@ -1,18 +1,21 @@
 {
+  config,
   ...
 }:
 
 {
-  # ── Zsh ─────────────────────────────────────────────────
+  # custom oh-my-zsh theme with ssh indicator
+  home.file.".oh-my-zsh/custom/themes/robbyrussell-ssh.zsh-theme".source = ./robbyrussell-ssh.zsh-theme;
+
   programs.zsh = {
     enable = true;
-    autosuggestions.enable = true;
+    autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     enableCompletion = true;
 
-    ohMyZsh = {
+    oh-my-zsh = {
       enable = true;
-      custom = "$HOME/.oh-my-zsh/custom";
+      custom = "${config.home.homeDirectory}/.oh-my-zsh/custom";
       plugins = [
         "git"
         "sudo"
@@ -24,4 +27,6 @@
       theme = "robbyrussell-ssh";
     };
   };
+
+  programs.bash.enable = true;
 }

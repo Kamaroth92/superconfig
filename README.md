@@ -9,3 +9,10 @@ rbw get $USERNAME-user-key -f "public_key" > ~/.ssh/id_ed25519.pub
 rbw get $USERNAME-user-key -f "private_key" > ~/.ssh/id_ed25519  
 chmod 600 ~/.ssh/id_ed25519
 ```
+
+# Furture state
+Ideally this configuration will be used to manage multiple machines with different purposes
+WSL: taneb
+Laptop: taneb
+Ergo Nodes 1 / 2 / 3: ergo and taneb
+Other machines not running nixos

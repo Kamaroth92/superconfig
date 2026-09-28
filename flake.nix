@@ -16,24 +16,19 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # colmena.url = "github:zhaofengli/colmena";
-
   };
 
   outputs =
     {
       self,
       nixpkgs,
-      # colmena,
       ...
     }@inputs:
     {
       nixosConfigurations = {
-
         melchior = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;
-            machineSecretsPath = ./secrets/melchior.yaml;
           };
 
           modules = [
@@ -45,7 +40,6 @@
         wsl-builder = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;
-            machineSecretsPath = ./secrets/wsl-builder.yaml;
           };
 
           modules = [
@@ -53,46 +47,7 @@
             ./machines/wsl-builder
           ];
         };
-
       };
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
-      # colmenaHive = colmena.lib.makeHive self.outputs.colmena;
-
-      # colmena = {
-      #   meta = {
-      #     nixpkgs = import nixpkgs {
-      #       system = "x86_64-linux";
-      #     };
-      #     specialArgs = { inherit inputs; };
-      #     nodeSpecialArgs = {
-      #       melchior.machineSecretsPath = ./secrets/melchior.yaml;
-      #       wsl-builder.machineSecretsPath = ./secrets/wsl-builder.yaml;
-      #     };
-      #   };
-
-      #   melchior = {
-      #     deployment = {
-      #       targetHost = "melchior";
-      #       targetPort = 2222;
-      #       targetUser = "taneb";
-      #     };
-      #     imports = [
-      #       ./modules/common.nix
-      #       ./machines/melchior
-      #     ];
-      #   };
-
-      #   wsl-builder = {
-      #     deployment = {
-      #       targetHost = "wsl-builder";
-      #       targetPort = 2222;
-      #       targetUser = "taneb";
-      #     };
-      #     imports = [
-      #       ./modules/common.nix
-      #       ./machines/wsl-builder
-      #     ];
-      #   };
-      # };
     };
 }
