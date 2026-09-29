@@ -10,12 +10,11 @@
     ./system-packages.nix
   ];
 
-  # ── sops ────────────────────────────────────────────────
+  # sops
   sops.defaultSopsFormat = "yaml";
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-  sops.defaultSopsFile = ../secrets/common.yaml;
 
-  # ── Nix ─────────────────────────────────────────────────
+  # nix
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
@@ -26,7 +25,7 @@
   ];
   nixpkgs.config.allowUnfree = true;
 
-  # ── Locale & time ───────────────────────────────────────
+  # locale & time
   time.timeZone = "Australia/Melbourne";
   i18n.defaultLocale = "en_AU.UTF-8";
   i18n.extraLocaleSettings = {
@@ -41,7 +40,7 @@
     LC_TIME = "en_AU.UTF-8";
   };
 
-  # ── SSH ─────────────────────────────────────────────────
+  # ssh
   services.openssh = {
     enable = true;
     ports = [ 2222 ];

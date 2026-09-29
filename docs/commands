@@ -1,5 +1,23 @@
+# Apply a NixOS host locally (NH_FLAKE points at ~/config)
+nh os switch
+
 # Push config remotely
 NIX_SSHOPTS="-F /home/taneb/.ssh/config" nixos-rebuild switch --flake ~/config#melchior --target-host melchior --sudo --ask-sudo-password 
+
+# Apply a standalone (non-NixOS) user.
+# nh reads NH_FLAKE and resolves <user>@<hostname>, so no arguments are needed.
+nh home switch
+home-manager switch --flake ~/config#ffma@FF-5CG30956H8
+
+# Bootstrap standalone home-manager before it is on PATH
+nix run home-manager/release-26.05 -- switch --flake ~/config#ffma -b bak
+
+# Build without activating -- useful for checking a change touches nothing live
+nix build ~/config#homeConfigurations."ffma@FF-5CG30956H8".activationPackage
+
+# Check the NixOS hosts still evaluate after touching home/
+nix eval ~/config#nixosConfigurations.wsl-builder.config.system.build.toplevel.drvPath
+nix eval ~/config#nixosConfigurations.melchior.config.system.build.toplevel.drvPath
 
 # Generate private age from ssh key
 # Only needed if not using ssh keys

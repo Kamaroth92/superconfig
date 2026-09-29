@@ -4,19 +4,8 @@
 }:
 
 {
-  # ── Shared packages ─────────────────────────────────────
+  # git stays at the system level so it is available before home-manager is
   environment.systemPackages = with pkgs; [
-    colmena
-    gnumake
-    sops
-    bws
-    vim
     git
-    wget
-    nixfmt
-    nh
-    kubectl
-    kubectx 
-    kubernetes-helm
   ];
 }
