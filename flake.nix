@@ -3,9 +3,11 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
@@ -24,6 +26,11 @@
       nixpkgs,
       ...
     }@inputs:
+    let
+      system = "x86_64-linux";
+
+      mkHome = import ./lib/mkHome.nix { inherit inputs system; };
+    in
     {
       nixosConfigurations = {
         melchior = nixpkgs.lib.nixosSystem {
@@ -48,6 +55,21 @@
           ];
         };
       };
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
+
+      # Keyed "<user>@<hostname>", which is what `nh home switch` looks for.
+      homeConfigurations =
+        let
+          ffma-wsl = mkHome {
+            username = "ffma";
+            hostname = "FF-5CG30956H8";
+            modules = [ ./home/users/ffma.nix ];
+          };
+        in
+        {
+          "ffma@FF-5CG30956H8" = ffma-wsl;
+          ffma = ffma-wsl;
+        };
+
+      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
     };
 }

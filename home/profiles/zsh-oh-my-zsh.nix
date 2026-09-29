@@ -1,11 +1,13 @@
+# Takes over ~/.zshrc (and ~/.bashrc, ~/.profile). Use zsh-adopt.nix instead if
+# those are managed outside Nix.
 {
   config,
   ...
 }:
 
 {
-  # custom oh-my-zsh theme with ssh indicator
-  home.file.".oh-my-zsh/custom/themes/robbyrussell-ssh.zsh-theme".source = ./robbyrussell-ssh.zsh-theme;
+  home.file.".oh-my-zsh/custom/themes/robbyrussell-ssh.zsh-theme".source =
+    ./files/robbyrussell-ssh.zsh-theme;
 
   programs.zsh = {
     enable = true;

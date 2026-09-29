@@ -18,11 +18,10 @@
     shell = pkgs.zsh;
   };
 
-  # zsh is the login shell; home-manager (shell.nix) configures it, so the
-  # system default prompt is left empty.
+  # home-manager owns the prompt.
   programs.zsh.enable = true;
   programs.zsh.promptInit = "";
 
   # home-manager
-  home-manager.users."taneb".imports = [ ./home.nix ];
+  home-manager.users."taneb".imports = [ ../../home/users/taneb.nix ];
 }

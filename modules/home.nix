@@ -14,4 +14,9 @@
     inputs.sops-nix.homeManagerModules.sops
   ];
 
+  # Mirrors lib/mkHome.nix.
+  home-manager.extraSpecialArgs = {
+    inherit inputs;
+    standalone = false;
+  };
 }
