@@ -1,7 +1,5 @@
 {
-  config,
   pkgs,
-  inputs,
   ...
 }:
 
@@ -13,15 +11,15 @@
 
   networking.hostName = "melchior";
 
-  # ── Boot ────────────────────────────────────────────────
+  # boot
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # ── Networking ──────────────────────────────────────────
+  # networking
   networking.networkmanager.enable = true;
 
-  # ── Desktop (GNOME) ─────────────────────────────────────
+  # desktop (gnome)
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
 
@@ -30,10 +28,10 @@
     variant = "";
   };
 
-  # ── Printing ────────────────────────────────────────────
+  # printing
   services.printing.enable = true;
 
-  # ── Audio ───────────────────────────────────────────────
+  # audio
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -57,10 +55,10 @@
     };
   };
 
-  # ── Bluetooth ───────────────────────────────────────────
+  # bluetooth
   hardware.bluetooth.enable = true;
 
-  # ── GUI apps ────────────────────────────────────────────
+  # gui apps
   programs.firefox.enable = true;
 
   environment.systemPackages = with pkgs; [
