@@ -18,6 +18,13 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    ffma-nix = {
+      url = "git+file:///home/ffma/ffma-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+      inputs.sops-nix.follows = "sops-nix";
+    };
   };
 
   outputs =
