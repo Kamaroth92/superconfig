@@ -1,4 +1,4 @@
-# Delivered as a NixOS module via users/taneb/default.nix.
+# Standalone home-manager profile, built via mkHome in flake.nix.
 { lib, ... }:
 
 let
@@ -13,7 +13,7 @@ in
       ../../profiles/git.nix
       ../../profiles/rbw.nix
       ../../profiles/kube.nix
-      ../../profiles/secrets.nix
+      ./secrets.nix
       ../../profiles/claude-code.nix
     ]
     ++ lib.optional (builtins.pathExists localNix) localNix;

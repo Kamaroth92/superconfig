@@ -22,6 +22,6 @@
   programs.zsh.enable = true;
   programs.zsh.promptInit = "";
 
-  # home-manager
-  home-manager.users."taneb".imports = [ ../../home/users/taneb ];
+  # home-manager is NOT delivered here. It is standalone on every host, so run
+  # `nh home switch` to apply it -- see homeConfigurations in flake.nix.
 }

@@ -6,7 +6,6 @@
 {
   imports = [
     inputs.sops-nix.nixosModules.sops
-    ./home.nix
     ./system-packages.nix
   ];
 

@@ -6,7 +6,9 @@
 
 {
   username,
-  hostname,
+  # Optional: hosts that need no host-specific behaviour (the generic
+  # "<user>" key, plain Nix-on-Ubuntu servers) can leave this unset.
+  hostname ? null,
   modules,
 }:
 

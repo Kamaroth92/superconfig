@@ -19,13 +19,6 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    ffma-nix = {
-      url = "git+file:///home/ffma/ffma-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-      inputs.sops-nix.follows = "sops-nix";
-    };
   };
 
   outputs =
@@ -41,6 +34,13 @@
       mkHome = import ./lib/mkHome.nix { inherit inputs system; };
     in
     {
+      # Exposed so a downstream private user flake (e.g. ffma-nix) can build a
+      # home configuration against these shared profiles without this repo
+      # needing to know it exists.
+      lib = { inherit mkHome; };
+
+      # System only -- home-manager is delivered standalone on every host, so a
+      # dotfile change never requires a system rebuild. See homeConfigurations.
       nixosConfigurations = {
         melchior = nixpkgs.lib.nixosSystem {
           specialArgs = {
@@ -65,18 +65,20 @@
         };
       };
 
-      # Keyed "<user>@<hostname>", which is what `nh home switch` looks for.
+      # Keyed "<user>@<hostname>", which is what `nh home switch` looks for. It
+      # falls back to the bare "<user>" key, so the generic entry is what any
+      # Nix-on-Ubuntu host picks up without needing an entry of its own.
       homeConfigurations =
         let
-          ffma-wsl = mkHome {
-            username = "ffma";
-            hostname = "FF-5CG30956H8";
-            modules = [ ./home/users/ffma ];
+          taneb = mkHome {
+            username = "taneb";
+            modules = [ ./home/users/taneb ];
           };
         in
         {
-          "ffma@FF-5CG30956H8" = ffma-wsl;
-          ffma = ffma-wsl;
+          inherit taneb;
+          "taneb@melchior" = taneb;
+          "taneb@wsl-builder" = taneb;
         };
 
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;

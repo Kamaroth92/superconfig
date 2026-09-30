@@ -21,6 +21,9 @@
     ++ lib.optional standalone inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
   home.sessionVariables = {
-    NH_FLAKE = "${config.home.homeDirectory}/config";
+    # mkDefault so a downstream flake (e.g. ffma-nix) can point this at its own
+    # checkout -- sessionVariables is an attrset, so a plain value on both sides
+    # would be a merge conflict rather than an override.
+    NH_FLAKE = lib.mkDefault "${config.home.homeDirectory}/config";
   };
 }

@@ -1,13 +1,9 @@
 keys:
   - &taneb_user ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPPE+hjAIQBKvf3GxYrcX4ImpbPPz17ZdCpL4C8a3Hif
-  - &ffma_user ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB9YFvontQ4Gzh4Qawn/3bIFTOJxUQu/DsjoCWG49A2W tane.barriball@futurefund.gov.au
 creation_rules:
-  - path_regex: secrets/kubeconfig\.yaml$
+  - path_regex: home/users/taneb/kubeconfig\.yaml$
     key_groups:
     - age: [*taneb_user]
-  - path_regex: home/users/ffma/secrets\.yaml$
-    key_groups:
-    - age: [*ffma_user]
   - path_regex: home/users/taneb/secrets\.yaml$
     key_groups:
     - age: [*taneb_user]

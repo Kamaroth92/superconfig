@@ -1,5 +1,5 @@
-# Requires a key that can decrypt secrets/*.yaml. Decryption runs as a systemd
-# user service, so without one these paths never appear.
+# Requires a key that can decrypt home/users/taneb/*.yaml. Decryption runs
+# as a systemd user service, so without one these paths never appear.
 {
   config,
   pkgs,
@@ -15,13 +15,13 @@
     age.sshKeyPaths = [ "${config.home.homeDirectory}/.ssh/id_ed25519" ];
 
     secrets."deepseek-api-key" = {
-      sopsFile = ../../secrets/taneb.yaml;
+      sopsFile = ./secrets.yaml;
     };
     secrets."openrouter-api-key" = {
-      sopsFile = ../../secrets/taneb.yaml;
+      sopsFile = ./secrets.yaml;
     };
     secrets."kubeconfig" = {
-      sopsFile = ../../secrets/kubeconfig.yaml;
+      sopsFile = ./kubeconfig.yaml;
     };
   };
 
