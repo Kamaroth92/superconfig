@@ -6,7 +6,7 @@
     enable = true;
     settings.user = {
       name = "Tane Barriball";
-      email = "tane.barriball@gmail.com";
+      email = "tanebarriball@gmail.com";
     };
   };
 }

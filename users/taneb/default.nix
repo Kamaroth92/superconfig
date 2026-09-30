@@ -23,5 +23,5 @@
   programs.zsh.promptInit = "";
 
   # home-manager
-  home-manager.users."taneb".imports = [ ../../home/users/taneb.nix ];
+  home-manager.users."taneb".imports = [ ../../home/users/taneb ];
 }
