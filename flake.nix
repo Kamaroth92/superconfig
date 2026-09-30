@@ -62,7 +62,7 @@
           ffma-wsl = mkHome {
             username = "ffma";
             hostname = "FF-5CG30956H8";
-            modules = [ ./home/users/ffma.nix ];
+            modules = [ ./home/users/ffma ];
           };
         in
         {
