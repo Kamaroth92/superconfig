@@ -8,12 +8,13 @@ in
 {
   imports =
     [
+      ./secrets.nix
       ../../profiles/base.nix
       ../../profiles/zsh-oh-my-zsh.nix
-      ../../profiles/git.nix
       ../../profiles/rbw.nix
+      ../../profiles/git.nix
+      ../../profiles/ssh.nix
       ../../profiles/kube.nix
-      ./secrets.nix
       ../../profiles/claude-code.nix
     ]
     ++ lib.optional (builtins.pathExists localNix) localNix;

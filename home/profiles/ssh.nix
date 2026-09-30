@@ -10,7 +10,12 @@
         identitiesOnly = "yes";
       };
       "melchior" = {
-        hostname = "melchior";
+        # hostname = "melchior";
+        user = "taneb";
+        port = "2222";
+      };
+      "wsl-builder" = {
+        # hostname = "wsl-builder";
         user = "taneb";
         port = "2222";
       };

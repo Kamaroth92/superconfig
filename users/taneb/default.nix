@@ -22,6 +22,7 @@
   programs.zsh.enable = true;
   programs.zsh.promptInit = "";
 
-  # home-manager is NOT delivered here. It is standalone on every host, so run
-  # `nh home switch` to apply it -- see homeConfigurations in flake.nix.
+  # Delivered via NixOS module (see modules/home.nix) so `nh os switch`
+  # applies dotfiles too. Also available standalone via `nh home switch`.
+  home-manager.users.taneb = { imports = [ ../../home/users/taneb ]; };
 }
