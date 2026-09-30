@@ -7,9 +7,17 @@
 
 {
   home.packages = [
-    pkgs-unstable.claude-code
+    pkgs-unstable.vault
   ];
 
+  programs.zsh.initContent = ''
+    vault_login() {
+      if ! vault token lookup >/dev/null 2>&1; then
+        echo "Vault not logged in - logging in..."
+        vault login -method=oidc
+      fi
+    }
+  '';
   # home.sessionVariables = {
   #   ANTHROPIC_BASE_URL = "https://openrouter.ai/api";
   #   # ANTHROPIC_MODEL = "deepseek-v4-pro[1m]";

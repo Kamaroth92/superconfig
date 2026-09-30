@@ -7,6 +7,7 @@
     ../../profiles/kube.nix
     ../../profiles/sops.nix
     ../../profiles/claude-code.nix
+    ../../profiles/vault.nix
     inputs.ffma-nix.homeManagerModules.ffma
   ];
 }
