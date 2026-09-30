@@ -27,6 +27,7 @@ inputs.home-manager.lib.homeManagerConfiguration {
   };
 
   modules = modules ++ [
+    inputs.sops-nix.homeManagerModules.sops
     (
       { pkgs, ... }:
       {
