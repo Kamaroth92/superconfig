@@ -1,4 +1,3 @@
-# KUBECONFIG lives in secrets.nix, so this profile stays portable.
 { pkgs, ... }:
 
 {

@@ -24,5 +24,7 @@
 
   # Delivered via NixOS module (see modules/home.nix) so `nh os switch`
   # applies dotfiles too. Also available standalone via `nh home switch`.
-  home-manager.users.taneb = { imports = [ ../../home/users/taneb ]; };
+  home-manager.users.taneb = {
+    imports = [ ../../home/users/taneb ];
+  };
 }

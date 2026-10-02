@@ -66,8 +66,11 @@ suitable — it is too old for a `release-26.05` home-manager, and it restricts
 daemon access to the `nix-users` group. Use the Determinate installer:
 
 ```
+# If nix-bin already installed 
 sudo apt-get purge --auto-remove nix-bin nix-setup-systemd
 sudo rm -rf /nix /etc/nix
+
+# Install
 curl -fsSL https://install.determinate.systems/nix | sh -s -- install
 ```
 

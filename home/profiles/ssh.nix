@@ -1,4 +1,3 @@
-# Not for users whose ~/.gitconfig is managed outside Nix.
 { ... }:
 
 {
@@ -10,12 +9,11 @@
         identitiesOnly = "yes";
       };
       "melchior" = {
-        # hostname = "melchior";
         user = "taneb";
         port = "2222";
       };
       "wsl-builder" = {
-        # hostname = "wsl-builder";
+        hostname = "casper";
         user = "taneb";
         port = "2222";
       };
