@@ -30,5 +30,14 @@
     };
   };
 
+  # Session vars are guarded by __HM_SESS_VARS_SOURCED, which new shells
+  # inherit, so values go stale after a switch. Run `hmreload` to pick them up.
+  programs.zsh.initContent = ''
+    hmreload() {
+      unset __HM_SESS_VARS_SOURCED
+      . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+    }
+  '';
+
   programs.bash.enable = true;
 }
