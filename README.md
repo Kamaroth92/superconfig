@@ -38,6 +38,10 @@ nh os switch
 
 `ffma` — Ubuntu 24.04 under WSL2. Only `$HOME` is managed; apt owns the system.
 
+`administrator@ergo-dns-01` — a non-NixOS host whose configuration lives here in
+superconfig (unlike `ffma`, which wraps it from a private flake). Home-manager is
+delivered standalone via `mkHome`.
+
 ```
 nh home switch
 ```

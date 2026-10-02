@@ -74,11 +74,18 @@
             username = "taneb";
             modules = [ ./home/users/taneb ];
           };
+
+          administrator = mkHome {
+            username = "administrator";
+            hostname = "ergo-dns-01";
+            modules = [ ./home/users/administrator ];
+          };
         in
         {
-          inherit taneb;
+          inherit taneb administrator;
           "taneb@melchior" = taneb;
           "taneb@wsl-builder" = taneb;
+          "administrator@ergo-dns-01" = administrator;
         };
 
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
