@@ -22,9 +22,9 @@
   programs.zsh.enable = true;
   programs.zsh.promptInit = "";
 
-  # Delivered via NixOS module (see modules/home.nix) so `nh os switch`
+  # Delivered via NixOS module (see nixos/modules/home.nix) so `nh os switch`
   # applies dotfiles too. Also available standalone via `nh home switch`.
   home-manager.users.taneb = {
-    imports = [ ../../home/users/taneb ];
+    imports = [ ../../../home/users/taneb ];
   };
 }

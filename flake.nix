@@ -48,8 +48,8 @@
           };
 
           modules = [
-            ./modules/common.nix
-            ./machines/melchior
+            ./nixos/modules/common.nix
+            ./nixos/machines/melchior
           ];
         };
 
@@ -59,8 +59,8 @@
           };
 
           modules = [
-            ./modules/common.nix
-            ./machines/wsl-builder
+            ./nixos/modules/common.nix
+            ./nixos/machines/wsl-builder
           ];
         };
       };

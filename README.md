@@ -12,9 +12,9 @@ The repo serves two kinds of machine from one set of user-level modules.
 | `home/profiles/` | portable home-manager modules. **No NixOS options, no `nixpkgs.config`.** |
 | `home/users/` | per-user identity plus a list of profiles to import |
 | `lib/mkHome.nix` | adapter for standalone home-manager (non-NixOS hosts) |
-| `modules/` | NixOS-only modules, including the NixOS-side home-manager adapter |
-| `machines/` | one directory per NixOS host |
-| `users/` | NixOS-level user accounts |
+| `nixos/modules/` | NixOS-only modules, including the NixOS-side home-manager adapter |
+| `nixos/machines/` | one directory per NixOS host |
+| `nixos/users/` | NixOS-level user accounts |
 
 Anything under `home/` must evaluate on both paths, so it may not reference
 `users.users`, `environment.systemPackages`, `services.*`, `nix.settings`, or set
@@ -89,6 +89,17 @@ nix run home-manager/release-26.05 -- switch --flake ~/config#ffma -b bak
 
 `-b bak` moves conflicting unmanaged files aside rather than failing. Delete the
 `.bak` files afterwards — a second switch fails if they are still present.
+
+Then set the nix-profile zsh as the login shell. `chsh` refuses shells that are
+not listed in `/etc/shells`, so add it (sudo once) before switching:
+
+```
+sudo sh -c 'echo "$(which zsh)" >> /etc/shells'
+chsh -s "$(which zsh)"
+```
+
+`$(which zsh)` resolves to `~/.nix-profile/bin/zsh` once the switch above has put
+it on `PATH`. Log out and back in for the new shell to take effect.
 
 ## Get keys onto the system
 ```
