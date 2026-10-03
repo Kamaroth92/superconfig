@@ -17,6 +17,11 @@
         user = "taneb";
         port = "2222";
       };
+      "ergo-dns-01" = {
+        hostname = "192.168.10.10";
+        user = "administrator";
+        port = "22";
+      };
     };
   };
 }
