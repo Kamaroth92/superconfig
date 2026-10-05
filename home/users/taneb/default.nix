@@ -1,6 +1,8 @@
 # Standalone home-manager profile, built via mkHome in flake.nix.
 {
   lib,
+  pkgs,
+  inputs,
   profiles,
   ...
 }:
@@ -28,6 +30,11 @@ in
   ++ lib.optional (builtins.pathExists localNix) localNix;
 
   home.stateVersion = "26.05";
+
+  # deploy-rs CLI for remote deploys (see the `deploy` output in flake.nix).
+  home.packages = [
+    inputs.deploy-rs.packages.${pkgs.stdenv.hostPlatform.system}.deploy-rs
+  ];
 
   # Short aliases for the eval/build matrix (see lib/testing.nix).
   programs.zsh.shellAliases = {
