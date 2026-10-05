@@ -12,7 +12,14 @@ in
 
 {
   imports =
-    profiles [ "common" "git" "rbw" "sops-common" "ssh" "zsh-oh-my-zsh" ]
+    profiles [
+      "common"
+      "git"
+      "rbw"
+      "sops-common"
+      "ssh"
+      "zsh-oh-my-zsh"
+    ]
     ++ lib.optional (builtins.pathExists localNix) localNix;
 
   home.stateVersion = "26.05";

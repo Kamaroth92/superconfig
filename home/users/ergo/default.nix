@@ -13,7 +13,14 @@ in
 
 {
   imports =
-    profiles [ "common" "kube" "sops-common" "ssh" "zsh-oh-my-zsh" "ergo-homelab" ]
+    profiles [
+      "common"
+      "kube"
+      "sops-common"
+      "ssh"
+      "zsh-oh-my-zsh"
+      "ergo-homelab"
+    ]
     ++ lib.optional (builtins.pathExists localNix) localNix;
 
   home.stateVersion = "26.05";
