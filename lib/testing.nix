@@ -1,9 +1,9 @@
-# On-demand evaluation of the flake's configured machines, derived at build
-# time so a new user or machine needs no update here.
+# On-demand evaluation and building of the flake's configured machines, derived
+# at build time so a new user or machine needs no update here.
 #
-#   nix run .#eval -- <target>   one target
-#   nix run .#eval -- all        every configuration
-#   nix run .#eval-all           shorthand for `all`
+#   nix run .#eval -- <target>    evaluate (module system resolves, no build)
+#   nix run .#build -- <target>   actually build the closure
+#   nix run .#eval-all / .#build-all   shorthand for `all`
 #
 # Targets are the keys on homeConfigurations and nixosConfigurations:
 #   all            every home + nixos configuration
@@ -23,9 +23,10 @@ let
   nixBin = "${pkgs.nix}/bin/nix";
   flake = toString self.outPath;
 
-  evalScript = pkgs.writeShellScriptBin "eval-matrix" ''
+  mkScript = verb: pkgs.writeShellScriptBin "check-matrix-${verb}" ''
     set -euo pipefail
 
+    verb=${verb}
     nix_bin=${lib.escapeShellArg nixBin}
     flake=${lib.escapeShellArg flake}
     home_targets=(${lib.escapeShellArgs homeNames})
@@ -33,30 +34,36 @@ let
 
     fail=0
 
-    eval_home() {
-      "$nix_bin" eval --no-write-lock-file "$flake#homeConfigurations.\"$1\".activationPackage.drvPath"
+    home_cmd() {
+      case "$verb" in
+        eval)  "$nix_bin" eval  --no-write-lock-file "$flake#homeConfigurations.\"$1\".activationPackage.drvPath" ;;
+        build) "$nix_bin" build --no-link --no-write-lock-file "$flake#homeConfigurations.\"$1\".activationPackage" ;;
+      esac
     }
-    eval_nixos() {
-      "$nix_bin" eval --no-write-lock-file "$flake#nixosConfigurations.\"$1\".config.system.build.toplevel.drvPath"
+    nixos_cmd() {
+      case "$verb" in
+        eval)  "$nix_bin" eval  --no-write-lock-file "$flake#nixosConfigurations.\"$1\".config.system.build.toplevel.drvPath" ;;
+        build) "$nix_bin" build --no-link --no-write-lock-file "$flake#nixosConfigurations.\"$1\".config.system.build.toplevel" ;;
+      esac
     }
 
     run_home() {
       local t="$1" out
-      if out=$(eval_home "$t" 2>/dev/null); then
-        printf '%-24s %s\n' "$t" "$out"
+      if out=$(home_cmd "$t" 2>/dev/null); then
+        if [ "$verb" = eval ]; then printf '%-24s %s\n' "$t" "$out"; else printf '%-24s built\n' "$t"; fi
       else
         printf '%-24s FAILED\n' "$t"
-        eval_home "$t" 2>&1 | sed 's/^/    /' >&2
+        home_cmd "$t" 2>&1 | sed 's/^/    /' >&2
         fail=1
       fi
     }
     run_nixos() {
       local t="$1" out
-      if out=$(eval_nixos "$t" 2>/dev/null); then
-        printf '%-24s %s\n' "$t" "$out"
+      if out=$(nixos_cmd "$t" 2>/dev/null); then
+        if [ "$verb" = eval ]; then printf '%-24s %s\n' "$t" "$out"; else printf '%-24s built\n' "$t"; fi
       else
         printf '%-24s FAILED\n' "$t"
-        eval_nixos "$t" 2>&1 | sed 's/^/    /' >&2
+        nixos_cmd "$t" 2>&1 | sed 's/^/    /' >&2
         fail=1
       fi
     }
@@ -96,14 +103,19 @@ let
     exit "$fail"
   '';
 
-  evalApp = {
+  evalScript = mkScript "eval";
+  buildScript = mkScript "build";
+
+  app = script: bin: {
     type = "app";
-    program = "${evalScript}/bin/eval-matrix";
+    program = "${script}/bin/${bin}";
   };
 in
 {
   apps = {
-    eval = evalApp;
-    eval-all = evalApp;
+    eval = app evalScript "check-matrix-eval";
+    eval-all = app evalScript "check-matrix-eval";
+    build = app buildScript "check-matrix-build";
+    build-all = app buildScript "check-matrix-build";
   };
 }
