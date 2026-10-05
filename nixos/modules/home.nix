@@ -4,6 +4,7 @@
 {
   inputs,
   pkgs,
+  config,
   ...
 }:
 
@@ -22,6 +23,8 @@
   home-manager.extraSpecialArgs = {
     inherit inputs;
     standalone = false;
+    hostname = config.networking.hostName;
+    profiles = import ../../lib/profiles.nix { };
     pkgs-unstable = import inputs.nixpkgs-unstable {
       inherit (pkgs.stdenv.hostPlatform) system;
       config.allowUnfree = true;

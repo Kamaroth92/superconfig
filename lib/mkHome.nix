@@ -19,12 +19,13 @@ let
     inherit system;
     config.allowUnfree = true;
   };
+  profiles = import ./profiles.nix { };
 in
 inputs.home-manager.lib.homeManagerConfiguration {
   inherit pkgs;
 
   extraSpecialArgs = {
-    inherit inputs hostname;
+    inherit inputs hostname profiles;
     standalone = true;
     pkgs-unstable = import inputs.nixpkgs-unstable {
       inherit system;
