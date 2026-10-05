@@ -27,11 +27,11 @@
             source = "github";
             repo = "michalzubkowicz/nixos-management-skill";
           };
-          kubernetes-skill = {
-            source = {
-              source = "github";
-              repo = "LukasNiessen/kubernetes-skill";
-            };
+        };
+        kubernetes-skill = {
+          source = {
+            source = "github";
+            repo = "LukasNiessen/kubernetes-skill";
           };
         };
       };
