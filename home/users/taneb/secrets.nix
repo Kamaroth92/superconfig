@@ -17,6 +17,9 @@
     secrets."openrouter-api-key" = {
       sopsFile = ./secrets.yaml;
     };
+    secrets."deepseek-api-key" = {
+      sopsFile = ./secrets.yaml;
+    };
   };
 
   # home.sessionVariables = {

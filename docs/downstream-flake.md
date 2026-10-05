@@ -73,7 +73,7 @@ pick up the wrong key. The `.gitmodules` entry should look like:
             hostname = "<your-host>";    # optional, for host-specific branching
             modules = [
               # Shared profiles from superconfig.
-              "${superconfig}/home/profiles/base.nix"
+              "${superconfig}/home/profiles/common.nix"
               "${superconfig}/home/profiles/zsh-oh-my-zsh.nix"
               # ... any other shared profiles you want
 
@@ -133,7 +133,7 @@ So that `nh home switch` (with no arguments) finds your private flake, set
 }
 ```
 
-`mkForce` overrides the default that `base.nix` sets (which points at
+`mkForce` overrides the default that `common.nix` sets (which points at
 superconfig).
 
 ## Step 6 — Bootstrap on a fresh machine

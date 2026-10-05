@@ -57,7 +57,7 @@ home-manager switch --flake ~/config#ffma@FF-5CG30956H8
 home-manager switch --flake ~/config#ffma
 ```
 
-`nh` reads `NH_FLAKE`, which `home/profiles/base.nix` sets to `~/config`, so it
+`nh` reads `NH_FLAKE`, which `home/profiles/common.nix` sets to `~/config`, so it
 needs no flake argument. Adding a second machine for the same user means another
 `mkHome` call with a different `hostname`; the `user@host` key keeps them apart.
 Modules can branch on the host via the `hostname` argument that `lib/mkHome.nix`
@@ -108,9 +108,10 @@ rbw get $USERNAME-user-key -f "private_key" > ~/.ssh/id_ed25519
 chmod 600 ~/.ssh/id_ed25519
 ```
 
-# Furture state
-Ideally this configuration will be used to manage multiple machines with different purposes
-WSL: taneb (NixOS-WSL), ffma (Ubuntu WSL, standalone home-manager)
-Laptop: taneb
-Ergo Nodes 1 / 2 / 3: ergo and taneb
-Other machines not running nixos
+# Future state
+
+- WSL: taneb (NixOS-WSL on `casper`), ffma (Ubuntu WSL, standalone home-manager)
+- Laptop: taneb
+- Ergo Nodes 1 / 2 / 3: `administrator` today, `ergo` as the eventual homelab user
+- ergo-dns-01: standalone `administrator` (unchanged)
+- deploy-rs: planned as the deployment mechanism (not yet implemented; deploy currently via `nixos-rebuild --target-host` / `nh`)
