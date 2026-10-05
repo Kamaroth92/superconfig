@@ -48,5 +48,9 @@
     settings.PasswordAuthentication = false;
   };
 
+  # deploy-rs (Route A: ssh in as root). PermitRootLogin already defaults to
+  # "prohibit-password", so only the key is needed.
+  users.users.root.openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMRz6DYLBUKvnbvFmJbWipviwwOy3mWN6ypfuRAuGycx  deploy-key" ];
+
   system.stateVersion = "26.05";
 }

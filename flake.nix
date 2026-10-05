@@ -19,6 +19,11 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -26,6 +31,7 @@
       self,
       nixpkgs,
       nixpkgs-unstable,
+      deploy-rs,
       ...
     }@inputs:
     let
@@ -121,6 +127,42 @@
           "ergo@ergo-node-02" = ergo "ergo-node-02";
           "ergo@ergo-node-03" = ergo "ergo-node-03";
         };
+
+      # Remote deploys via deploy-rs. Each `hostname` refers to a `deploy-*`
+      # alias in home/profiles/ssh.nix, which carries the deploy key and the
+      # target user/port.
+      deploy = {
+        nodes = {
+          melchior = {
+            hostname = "deploy-melchior";
+            sshUser = "root";
+            profiles.system = {
+              user = "root";
+              path = deploy-rs.lib.${system}.activate.nixos self.nixosConfigurations.melchior;
+            };
+          };
+
+          wsl-builder = {
+            hostname = "deploy-wsl-builder";
+            sshUser = "root";
+            profiles.system = {
+              user = "root";
+              path = deploy-rs.lib.${system}.activate.nixos self.nixosConfigurations.wsl-builder;
+            };
+          };
+
+          "administrator@ergo-dns-01" = {
+            hostname = "deploy-ergo-dns-01";
+            sshUser = "administrator";
+            profiles.home = {
+              user = "administrator";
+              path =
+                deploy-rs.lib.${system}.activate.home-manager
+                  self.homeConfigurations."administrator@ergo-dns-01";
+            };
+          };
+        };
+      };
 
       apps.${system} = testing.apps;
 
