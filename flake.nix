@@ -151,7 +151,7 @@
             };
           };
 
-          "administrator@ergo-dns-01" = {
+          ergo-dns-01 = {
             hostname = "deploy-ergo-dns-01";
             sshUser = "administrator";
             profiles.home = {
