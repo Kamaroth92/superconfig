@@ -80,12 +80,19 @@
             hostname = "ergo-dns-01";
             modules = [ ./home/users/administrator ];
           };
+
+          deck = mkHome {
+            username = "deck";
+            hostname = "steamdeck";
+            modules = [ ./home/users/deck ];
+          };
         in
         {
-          inherit taneb administrator;
+          inherit taneb administrator deck;
           "taneb@melchior" = taneb;
           "taneb@wsl-builder" = taneb;
           "administrator@ergo-dns-01" = administrator;
+          "deck@steamdeck" = deck;
         };
 
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;

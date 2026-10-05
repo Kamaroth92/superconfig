@@ -15,6 +15,12 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  # USB/IP export side, for forwarding the physical mouse to the Windows host
+  # running League of Legends (Riot Vanguard blocks Sunshine's injected mouse).
+  boot.kernelModules = [ "usbip-core" "usbip-host" ];
+
+  # usbip listens on TCP 3240 for attach requests from the Windows host.
+  networking.firewall.allowedTCPPorts = [ 3240 ];
 
   # networking
   networking.networkmanager.enable = true;
@@ -67,5 +73,9 @@
     steam
     bitwarden-desktop
     vlc
+    moonlight-qt
+    # Matches boot.kernelPackages so the usbip userspace tools line up with the
+    # kernel's usbip modules. Provides usbip + usbipd.
+    linuxPackages_latest.usbip
   ];
 }

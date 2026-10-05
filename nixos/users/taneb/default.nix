@@ -1,4 +1,6 @@
 {
+  config,
+  lib,
   pkgs,
   ...
 }:
@@ -24,7 +26,12 @@
 
   # Delivered via NixOS module (see nixos/modules/home.nix) so `nh os switch`
   # applies dotfiles too. Also available standalone via `nh home switch`.
+  #
+  # EasyEffects is only added where PipeWire runs (melchior): its user unit
+  # Requires= pipewire.service, which headless hosts like wsl-builder lack.
   home-manager.users.taneb = {
-    imports = [ ../../../home/users/taneb ];
+    imports = [
+      ../../../home/users/taneb
+    ] ++ lib.optional config.services.pipewire.enable ../../../home/users/taneb/easyeffects.nix;
   };
 }
