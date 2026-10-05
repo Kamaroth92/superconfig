@@ -1,0 +1,109 @@
+# On-demand evaluation of the flake's configured machines, derived at build
+# time so a new user or machine needs no update here.
+#
+#   nix run .#eval -- <target>   one target
+#   nix run .#eval -- all        every configuration
+#   nix run .#eval-all           shorthand for `all`
+#
+# Targets are the keys on homeConfigurations and nixosConfigurations:
+#   all            every home + nixos configuration
+#   <user>@<host>  one home configuration
+#   <user>         every home key for that username (bare key + <user>@*)
+#   <host>         the NixOS configuration on that host
+{
+  pkgs,
+  self,
+}:
+let
+  inherit (pkgs) lib;
+
+  homeNames = builtins.attrNames self.homeConfigurations;
+  nixosNames = builtins.attrNames self.nixosConfigurations;
+
+  nixBin = "${pkgs.nix}/bin/nix";
+  flake = toString self.outPath;
+
+  evalScript = pkgs.writeShellScriptBin "eval-matrix" ''
+    set -euo pipefail
+
+    nix_bin=${lib.escapeShellArg nixBin}
+    flake=${lib.escapeShellArg flake}
+    home_targets=(${lib.escapeShellArgs homeNames})
+    nixos_targets=(${lib.escapeShellArgs nixosNames})
+
+    fail=0
+
+    eval_home() {
+      "$nix_bin" eval --no-write-lock-file "$flake#homeConfigurations.\"$1\".activationPackage.drvPath"
+    }
+    eval_nixos() {
+      "$nix_bin" eval --no-write-lock-file "$flake#nixosConfigurations.\"$1\".config.system.build.toplevel.drvPath"
+    }
+
+    run_home() {
+      local t="$1" out
+      if out=$(eval_home "$t" 2>/dev/null); then
+        printf '%-24s %s\n' "$t" "$out"
+      else
+        printf '%-24s FAILED\n' "$t"
+        eval_home "$t" 2>&1 | sed 's/^/    /' >&2
+        fail=1
+      fi
+    }
+    run_nixos() {
+      local t="$1" out
+      if out=$(eval_nixos "$t" 2>/dev/null); then
+        printf '%-24s %s\n' "$t" "$out"
+      else
+        printf '%-24s FAILED\n' "$t"
+        eval_nixos "$t" 2>&1 | sed 's/^/    /' >&2
+        fail=1
+      fi
+    }
+
+    usage() {
+      echo "usage: $0 <target>" >&2
+      echo "  all            every home + nixos configuration" >&2
+      echo "  <user>@<host>  one home configuration" >&2
+      echo "  <user>         every home configuration for that username" >&2
+      echo "  <host>         the NixOS configuration on that host" >&2
+      echo "home targets:   ''${home_targets[*]}" >&2
+      echo "nixos targets:  ''${nixos_targets[*]}" >&2
+      exit 2
+    }
+
+    target="''${1:-}"
+    if [ -z "$target" ]; then target=all; fi
+
+    if [ "$target" = all ]; then
+      for t in "''${home_targets[@]}"; do run_home "$t"; done
+      for t in "''${nixos_targets[@]}"; do run_nixos "$t"; done
+    elif [[ "$target" == *@* ]]; then
+      run_home "$target"
+    else
+      matched=0
+      if [[ " ''${nixos_targets[*]} " == *" $target "* ]]; then
+        run_nixos "$target"; matched=1
+      fi
+      for t in "''${home_targets[@]}"; do
+        if [[ "$t" == "$target" || "$t" == "$target"@* ]]; then
+          run_home "$t"; matched=1
+        fi
+      done
+      if [ "$matched" = 0 ]; then usage; fi
+    fi
+
+    exit "$fail"
+  '';
+
+  evalApp = {
+    type = "app";
+    program = "${evalScript}/bin/eval-matrix";
+  };
+in
+{
+  apps = {
+    eval = evalApp;
+    eval-all = evalApp;
+  };
+}

@@ -32,6 +32,11 @@
       system = "x86_64-linux";
 
       mkHome = import ./lib/mkHome.nix { inherit inputs system; };
+
+      testing = import ./lib/testing.nix {
+        pkgs = nixpkgs.legacyPackages.${system};
+        inherit self;
+      };
     in
     {
       # Exposed so a downstream private user flake (e.g. ffma-nix) can build a
@@ -116,6 +121,8 @@
           "ergo@ergo-node-02" = ergo "ergo-node-02";
           "ergo@ergo-node-03" = ergo "ergo-node-03";
         };
+
+      apps.${system} = testing.apps;
 
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
     };
