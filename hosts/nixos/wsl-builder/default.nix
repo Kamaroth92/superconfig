@@ -1,4 +1,4 @@
-# wsl — NixOS-WSL builder running inside casper.
+# wsl-builder — NixOS-WSL builder running inside casper.
 {
   inputs,
   lib,

@@ -88,7 +88,7 @@
     {
       nixosConfigurations = {
         melchior = mkHost "melchior";
-        wsl = mkHost "wsl";
+        wsl-builder = mkHost "wsl-builder";
       };
 
       homeConfigurations = {

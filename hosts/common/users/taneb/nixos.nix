@@ -5,5 +5,9 @@
     "wheel"
     "networkmanager"
   ];
-  # openssh.authorizedKeys goes here once nix-secrets is wired up.
+
+  # Public key for `ssh <host>` as taneb.
+  openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPPE+hjAIQBKvf3GxYrcX4ImpbPPz17ZdCpL4C8a3Hif taneb-user-key"
+  ];
 }

@@ -1,7 +1,7 @@
 { ... }:
 {
   hostSpec = {
-    hostName = "wsl";
+    hostName = "wsl-builder";
     users = [ "taneb" ];
   };
 }
