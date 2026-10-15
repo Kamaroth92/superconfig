@@ -1,6 +1,4 @@
-# Entry point shared by every NixOS host. Imports the home-manager and sops-nix
-# NixOS modules, the hostSpec option, the central user wiring, and the platform
-# core.
+# Entry point shared by every NixOS host.
 {
   inputs,
   config,

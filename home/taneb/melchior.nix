@@ -4,5 +4,6 @@
   imports = [
     ../common/core
     ./common
+    ./easyeffects.nix
   ];
 }

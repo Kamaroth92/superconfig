@@ -1,18 +1,14 @@
 # Claude Code CLI + DeepSeek provider wiring for taneb.
 {
   config,
-  pkgs,
+  pkgs-unstable,
   secrets,
   ...
 }:
 {
-  # home.packages = with pkgs; [
-  #   claude-code
-  # ];
-
   programs.claude-code = {
     enable = true;
-    package = pkgs.claude-code;
+    package = pkgs-unstable.claude-code;
     settings = {
       theme = "dark";
       enabledPlugins = {

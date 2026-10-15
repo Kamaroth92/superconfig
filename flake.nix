@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,18 +22,26 @@
     };
 
     nix-secrets = {
-      # Local override for testing. Point at a git remote once it's pushed:
-      #   url = "git+ssh://git@github.com/tanebarriball/nix-secrets.git";
+      # path: inputs are content-addressed, so after editing the secrets repo
+      # run `nix flake lock --update-input nix-secrets` or this stays stale.
+      # url = "git+ssh://git@github.com/Kamaroth92/nix-secrets.git";
       url = "path:/home/taneb/repos/nix-secrets";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
   outputs =
     {
+      self,
       nixpkgs,
       home-manager,
       nix-secrets,
+      deploy-rs,
       ...
     }@inputs:
     let
@@ -70,6 +80,10 @@
           pkgs = nixpkgs.legacyPackages.${system};
           extraSpecialArgs = {
             inherit inputs secrets;
+            pkgs-unstable = import inputs.nixpkgs-unstable {
+              inherit system;
+              config.allowUnfree = true;
+            };
           };
           modules = [
             (customLib.custom.relativeToRoot "home/${username}/${hostname}.nix")
@@ -107,6 +121,44 @@
         "ergo@ergo-node-04" = mkHome {
           username = "ergo";
           hostname = "ergo-node-04";
+        };
+      };
+
+      # Remote deploys via deploy-rs. Each `hostname` is a deploy-* alias in
+      # home/taneb/common (ssh config) carrying the deploy key + target user/port.
+      deploy = {
+        nodes = {
+          melchior = {
+            groups = [ "taneb" ];
+            hostname = "deploy-melchior";
+            sshUser = "root";
+            profiles.system = {
+              user = "root";
+              path = deploy-rs.lib.${system}.activate.nixos self.nixosConfigurations.melchior;
+            };
+          };
+
+          wsl-builder = {
+            groups = [ "taneb" ];
+            hostname = "deploy-wsl-builder";
+            sshUser = "root";
+            profiles.system = {
+              user = "root";
+              path = deploy-rs.lib.${system}.activate.nixos self.nixosConfigurations.wsl-builder;
+            };
+          };
+
+          ergo-dns-01 = {
+            groups = [ "administrator" ];
+            hostname = "deploy-ergo-dns-01";
+            sshUser = "administrator";
+            profiles.home = {
+              user = "administrator";
+              path =
+                deploy-rs.lib.${system}.activate.home-manager
+                  self.homeConfigurations."administrator@ergo-dns-01";
+            };
+          };
         };
       };
     };

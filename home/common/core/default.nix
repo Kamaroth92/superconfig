@@ -9,8 +9,14 @@
 {
   home.stateVersion = "26.05";
 
-  # nix-output-monitor: better build output on every host.
-  home.packages = [ pkgs.nh ];
+  home.packages = with pkgs; [
+    gnumake
+    nh
+    nixfmt
+    sops
+    vim
+    wget
+  ];
 
   # nh (nix-output-monitor / nixhelper) flake defaults. NH_HOME_FLAKE and
   # NH_OS_FLAKE default to the same flake as NH_FLAKE, but each is mkDefault so
@@ -38,6 +44,18 @@
       lib.mapAttrsToList (name: host: "${host.ip} ${name}") secrets.networking.hosts
     )
     + "\n";
+
+  # Authorized keys as a real file (not a home.file symlink): sshd's StrictModes
+  # rejects a symlinked authorized_keys into the root-owned nix store on
+  # non-NixOS hosts. Keys come from secrets.users.<username>.sshKeys (already
+  # merged with the common bucket by the nix-secrets flake).
+  home.activation.writeAuthorizedKeys =
+    let
+      keys = secrets.users.${config.home.username}.sshKeys or [ ];
+    in
+    lib.mkIf (keys != [ ]) (lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+      install -m 600 -D ${builtins.toFile "authorized_keys" (lib.concatStringsSep "\n" keys + "\n")} "$HOME/.ssh/authorized_keys"
+    '');
 
   programs.zsh = {
     enable = true;

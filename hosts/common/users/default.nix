@@ -25,7 +25,7 @@ in
       extraGroups = [ "wheel" ];
     }
     // (import (lib.custom.relativeToRoot "hosts/common/users/${user}/nixos.nix") {
-      inherit config lib;
+      inherit config lib secrets;
     })
   );
 
@@ -37,6 +37,10 @@ in
     ];
     extraSpecialArgs = {
       inherit inputs secrets;
+      pkgs-unstable = import inputs.nixpkgs-unstable {
+        inherit (pkgs.stdenv.hostPlatform) system;
+        config.allowUnfree = true;
+      };
     };
     users = lib.genAttrs hostSpec.users (user: {
       imports = [ (lib.custom.relativeToRoot "home/${user}/${hostSpec.hostName}.nix") ];
