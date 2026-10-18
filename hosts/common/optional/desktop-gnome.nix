@@ -1,5 +1,4 @@
-# GNOME desktop — the alternative to desktop-plasma.nix. Enable one or the
-# other in a host's default.nix; headless hosts like wsl-builder import neither.
+# GNOME desktop. One desktop-*.nix per host; headless hosts import none.
 { ... }:
 {
   services.displayManager.gdm.enable = true;

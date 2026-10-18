@@ -22,8 +22,7 @@
     };
 
     nix-secrets = {
-      # path: inputs are content-addressed, so after editing the secrets repo
-      # run `nix flake lock --update-input nix-secrets` or this stays stale.
+      # Edits are ignored until `nix flake lock --update-input nix-secrets`.
       # url = "git+ssh://git@github.com/Kamaroth92/nix-secrets.git";
       url = "path:/home/taneb/repos/nix-secrets";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -47,8 +46,7 @@
     let
       system = "x86_64-linux";
 
-      # Soft secrets from the private nix-secrets repo. Hard secrets arrive at
-      # runtime via sops-nix (see hosts/common/core).
+      # Soft secrets from nix-secrets; hard secrets arrive via sops-nix.
       secrets = nix-secrets;
 
       customLib = nixpkgs.lib.extend (
@@ -88,8 +86,7 @@
           modules = [
             (customLib.custom.relativeToRoot "home/${username}/${hostname}.nix")
             {
-              # Home-manager on a foreign OS: target generic Linux, not a NixOS
-              # or home-manager-managed system.
+              # Foreign OS: target generic Linux, not NixOS.
               targets.genericLinux.enable = true;
               home = {
                 username = username;
@@ -124,8 +121,7 @@
         };
       };
 
-      # Remote deploys via deploy-rs. Each `hostname` is a deploy-* alias in
-      # home/taneb/common (ssh config) carrying the deploy key + target user/port.
+      # deploy-rs: each hostname is a deploy-* ssh alias (deploy key + user/port).
       deploy = {
         nodes = {
           melchior = {

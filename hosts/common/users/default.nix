@@ -1,6 +1,4 @@
-# Central user wiring: turns hostSpec.users into system users and home-manager
-# users. Per-user system bits live in hosts/common/users/<user>/nixos.nix; the
-# per-host home entry point is home/<user>/<hostName>.nix.
+# Turns hostSpec.users into system + home-manager users.
 {
   inputs,
   config,

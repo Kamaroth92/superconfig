@@ -7,7 +7,7 @@
 {
   imports = [
     (lib.custom.relativeToRoot "hosts/common/core")
-    (lib.custom.relativeToRoot "hosts/common/optional/desktop-plasma.nix")
+    (lib.custom.relativeToRoot "hosts/common/optional/desktop-gnome.nix")
     (lib.custom.relativeToRoot "hosts/common/optional/audio.nix")
     (lib.custom.relativeToRoot "hosts/common/optional/bluetooth.nix")
     (lib.custom.relativeToRoot "hosts/common/optional/printing.nix")
@@ -21,8 +21,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # USB/IP export side, for forwarding the physical mouse to the Windows host
-  # running League of Legends (Riot Vanguard blocks Sunshine's injected mouse).
+  # Forward the physical mouse to the Windows host (Vanguard blocks Sunshine).
   boot.kernelModules = [ "usbip-core" "usbip-host" ];
 
   # usbip listens on TCP 3240 for attach requests from the Windows host.
@@ -37,8 +36,7 @@
     bitwarden-desktop
     vlc
     moonlight-qt
-    # Matches boot.kernelPackages so the usbip userspace tools line up with the
-    # kernel's usbip modules. Provides usbip + usbipd.
+    # Match kernelPackages so usbip userspace lines up with the kernel modules.
     linuxPackages_latest.usbip
     htop
     gimp

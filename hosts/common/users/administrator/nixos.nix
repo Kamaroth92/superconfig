@@ -1,6 +1,4 @@
-# System-user config for administrator on NixOS. Home config lives in
-# home/administrator/. Only relevant once the ergo hosts become NixOS; for now
-# administrator is a home-manager-only user.
+# System-user config for administrator (unused until the ergo hosts become NixOS).
 { ... }:
 {
   extraGroups = [ "wheel" ];

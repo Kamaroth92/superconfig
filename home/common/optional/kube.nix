@@ -1,4 +1,4 @@
-# Kubernetes tooling (taneb, and ergo later).
+# Kubernetes tooling.
 { pkgs, ... }:
 {
   home.packages = with pkgs; [

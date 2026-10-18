@@ -22,6 +22,9 @@
   time.timeZone = "Australia/Melbourne";
   i18n.defaultLocale = "en_AU.UTF-8";
 
+  # xterm-kitty terminfo for SSH sessions from kitty.
+  environment.systemPackages = [ pkgs.kitty.terminfo ];
+
   system.stateVersion = "26.05";
 
   # Hard secrets (sops-nix) are decrypted with each host's SSH host key.
@@ -37,16 +40,13 @@
     settings.PasswordAuthentication = false;
   };
 
-  # VS Code Remote SSH: the prebuilt VS Code Server (node + native modules) is
-  # dynamically linked against glibc/libstdc++, which NixOS doesn't expose at
-  # the FHS paths, so run it through nix-ld.
+  # VS Code Server links against glibc/libstdc++; run through nix-ld.
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [ stdenv.cc.cc.lib ];
   };
 
-  # deploy-rs: ssh in as root for remote deploys. PermitRootLogin defaults to
-  # "prohibit-password", so only the key is needed.
+  # Root ssh for deploy-rs (PermitRootLogin defaults to key-only).
   users.users.root.openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMRz6DYLBUKvnbvFmJbWipviwwOy3mWN6ypfuRAuGycx deploy-key"
   ];

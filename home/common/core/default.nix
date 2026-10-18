@@ -16,13 +16,10 @@
     sops
     vim
     wget
+    kitty.terminfo # xterm-kitty terminfo for SSH from kitty
   ];
 
-  # nh (nix-output-monitor / nixhelper) flake defaults. NH_HOME_FLAKE and
-  # NH_OS_FLAKE default to the same flake as NH_FLAKE, but each is mkDefault so
-  # a per-user or per-host module can override it with a plain value
-  # (sessionVariables is an attrset, so a plain value on both sides would be a
-  # merge conflict rather than an override).
+  # mkDefault so a per-user/host module can override without a merge conflict.
   home.sessionVariables =
     let
       flake = "${config.home.homeDirectory}/config";
@@ -36,19 +33,14 @@
   home.file.".oh-my-zsh/custom/themes/robbyrussell-ssh.zsh-theme".source =
     ./files/robbyrussell-ssh.zsh-theme;
 
-  # Soft-secret plumbing: private IPs from nix-secrets → ~/.config/hosts, so
-  # hostnames resolve without DNS on every host — standalone home-manager hosts
-  # included, where there's no NixOS /etc/hosts to touch.
+  # Private IPs → ~/.config/hosts so hostnames resolve without DNS (standalone hosts have no /etc/hosts).
   home.file.".config/hosts".text =
     lib.concatStringsSep "\n" (
       lib.mapAttrsToList (name: host: "${host.ip} ${name}") secrets.networking.hosts
     )
     + "\n";
 
-  # Authorized keys as a real file (not a home.file symlink): sshd's StrictModes
-  # rejects a symlinked authorized_keys into the root-owned nix store on
-  # non-NixOS hosts. Keys come from secrets.users.<username>.sshKeys (already
-  # merged with the common bucket by the nix-secrets flake).
+  # Real file, not a symlink: sshd StrictModes rejects a store symlink on non-NixOS hosts.
   home.activation.writeAuthorizedKeys =
     let
       keys = secrets.users.${config.home.username}.sshKeys or [ ];
@@ -77,8 +69,7 @@
       theme = "robbyrussell-ssh";
     };
 
-    # Session vars are guarded by __HM_SESS_VARS_SOURCED, which new shells
-    # inherit, so values go stale after a switch. Run `hmreload` to pick them up.
+    # Session vars go stale after a switch; `hmreload` re-sources them.
     initContent = ''
       hmreload() {
         unset __HM_SESS_VARS_SOURCED

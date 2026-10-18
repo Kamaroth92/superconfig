@@ -4,8 +4,7 @@
     hostName = "melchior";
     users = [ "taneb" ];
 
-    # Touchpad hardware identity, passed down to home-manager for KDE's
-    # kcminputrc. Ids from `grep -B1 -i touchpad /proc/bus/input/devices`.
+    # Touchpad identity for kcminputrc. Ids from /proc/bus/input/devices.
     touchpad = {
       vendor = 1739; # 0x06cb
       product = 52542; # 0xcd3e

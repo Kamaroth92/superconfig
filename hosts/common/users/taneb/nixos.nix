@@ -7,7 +7,6 @@
     "networkmanager"
   ];
 
-  # Public key for `ssh <host>` as taneb (already merged with the common bucket
-  # by the nix-secrets flake).
+  # taneb's ssh keys (merged with the common bucket).
   openssh.authorizedKeys.keys = secrets.users.taneb.sshKeys;
 }

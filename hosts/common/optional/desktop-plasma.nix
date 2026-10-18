@@ -1,6 +1,4 @@
-# KDE Plasma desktop — the alternative to desktop-gnome.nix. Enable one or
-# the other in a host's default.nix; headless hosts like wsl-builder import
-# neither.
+# KDE Plasma desktop. One desktop-*.nix per host; headless hosts import none.
 { ... }:
 {
   services.displayManager.sddm.enable = true;

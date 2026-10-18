@@ -1,7 +1,4 @@
-# A host describes itself in one place: hosts/nixos/<hostname>/host-spec.nix.
-# Core modules read hostSpec to derive networking.hostName, the system users to
-# create, and the home-manager users to wire up. Minimal subset of EmergentMind's
-# modules/hosts/common/host-spec.nix.
+# hostSpec option — a host describes itself in hosts/nixos/<host>/host-spec.nix.
 {
   lib,
   ...

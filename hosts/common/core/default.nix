@@ -17,8 +17,7 @@
 
   networking.hostName = config.hostSpec.hostName;
 
-  # Soft secrets (from nix-secrets) flow into hostSpec, so modules read e.g.
-  # config.hostSpec.networking.hosts.<hostName>.ip.
+  # Soft secrets flow into hostSpec.
   hostSpec = {
     inherit (secrets) networking;
   };

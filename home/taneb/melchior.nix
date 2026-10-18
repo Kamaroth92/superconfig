@@ -4,7 +4,6 @@
   imports = [
     ../common/core
     ./common
-    ./easyeffects.nix
-    ./plasma.nix
+    #./hyprland.nix
   ];
 }

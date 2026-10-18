@@ -39,9 +39,7 @@
     };
   };
 
-  # Hard secret: DeepSeek API key, encrypted in nix-secrets/sops/taneb.yaml and
-  # decrypted at activation with the age key whose public half lives in
-  # nix-secrets/.sops.yaml (derived from ~/.ssh/id_ed25519 via ssh-to-age).
+  # DeepSeek API key, decrypted from nix-secrets via sops.
   sops = {
     age.sshKeyPaths = [ "${config.home.homeDirectory}/.ssh/id_ed25519" ];
     secrets."deepseek-api-key" = {
