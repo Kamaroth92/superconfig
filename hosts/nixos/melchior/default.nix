@@ -7,7 +7,7 @@
 {
   imports = [
     (lib.custom.relativeToRoot "hosts/common/core")
-    (lib.custom.relativeToRoot "hosts/common/optional/desktop.nix")
+    (lib.custom.relativeToRoot "hosts/common/optional/desktop-plasma.nix")
     (lib.custom.relativeToRoot "hosts/common/optional/audio.nix")
     (lib.custom.relativeToRoot "hosts/common/optional/bluetooth.nix")
     (lib.custom.relativeToRoot "hosts/common/optional/printing.nix")

@@ -5,5 +5,6 @@
     ../common/core
     ./common
     ./easyeffects.nix
+    ./plasma.nix
   ];
 }
