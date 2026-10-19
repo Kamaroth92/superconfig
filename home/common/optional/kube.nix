@@ -6,5 +6,7 @@
     kubectx
     kubernetes-helm
     k9s
+    stern
+    kustomize
   ];
 }

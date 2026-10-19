@@ -26,6 +26,7 @@
     age.sshKeyPaths = [ "${config.home.homeDirectory}/.ssh/id_ed25519" ];
     secrets.kubeconfig = {
       sopsFile = "${secrets.outPath}/sops/kubeconfig.yaml";
+      mode = "0600"; # kubectx (Go) opens it read-write; the default 0400 fails.
     };
   };
   home.sessionVariables.KUBECONFIG = config.sops.secrets.kubeconfig.path;

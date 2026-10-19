@@ -82,8 +82,8 @@
         ]
       },
       "locked": {
-        "lastModified": 1791712877,
-        "narHash": "sha256-bXaMVPtUK6l5tEenUp1XkYz+y6hTzGHNInOoIIioCrY=",
+        "lastModified": 1792408685,
+        "narHash": "sha256-TkgwSnCjl5rDcgzLMFHfzpZB3sj5se4W1ZVHbiwLpV4=",
         "path": "/home/taneb/repos/nix-secrets",
         "type": "path"
       },
