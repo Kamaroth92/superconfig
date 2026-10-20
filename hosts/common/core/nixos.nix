@@ -3,6 +3,7 @@
   config,
   lib,
   pkgs,
+  secrets,
   ...
 }:
 {
@@ -47,9 +48,7 @@
   };
 
   # Root ssh for deploy-rs (PermitRootLogin defaults to key-only).
-  users.users.root.openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMRz6DYLBUKvnbvFmJbWipviwwOy3mWN6ypfuRAuGycx deploy-key"
-  ];
+  users.users.root.openssh.authorizedKeys.keys = [ secrets.deployKey ];
 
   # Hostnames resolve without DNS.
   networking.extraHosts = lib.concatStringsSep "\n" (
