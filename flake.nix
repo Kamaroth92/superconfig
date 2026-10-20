@@ -97,6 +97,8 @@
         };
     in
     {
+      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
+
       nixosConfigurations = {
         melchior = mkHost "melchior";
         wsl-builder = mkHost "wsl-builder";

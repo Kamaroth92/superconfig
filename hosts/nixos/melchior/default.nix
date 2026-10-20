@@ -22,7 +22,10 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Forward the physical mouse to the Windows host (Vanguard blocks Sunshine).
-  boot.kernelModules = [ "usbip-core" "usbip-host" ];
+  boot.kernelModules = [
+    "usbip-core"
+    "usbip-host"
+  ];
 
   # usbip listens on TCP 3240 for attach requests from the Windows host.
   networking.firewall.allowedTCPPorts = [ 3240 ];
