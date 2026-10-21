@@ -103,11 +103,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792411040,
-        "narHash": "sha256-sq82in7wO7nuvukgDw3U7aRS/CdtqxzRG7XjjRv2k3k=",
+        "lastModified": 1792583746,
+        "narHash": "sha256-wMexPeZ+p0HLuhSJGBLtzE80O/nS+jBNFMYsA+TRzPU=",
         "ref": "refs/heads/main",
-        "rev": "5318a9c5779796f4be1be418345415cbe2fa1471",
-        "revCount": 4,
+        "rev": "b80aeea76d14472515c0e64c6a87bd6ebb32ed75",
+        "revCount": 5,
         "type": "git",
         "url": "ssh://git@github.com/Kamaroth92/nix-secrets.git"
       },
