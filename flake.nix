@@ -1,5 +1,5 @@
 {
-  description = "Tane's NixOS + home-manager config, structured after EmergentMind/nix-config";
+  description = "Tane's NixOS + nix-darwin + home-manager config, structured after EmergentMind/nix-config";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
@@ -8,6 +8,11 @@
 
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -23,8 +28,7 @@
 
     nix-secrets = {
       # Edits are ignored until `nix flake lock --update-input nix-secrets`.
-      # url = "git+ssh://git@github.com/Kamaroth92/nix-secrets.git";
-      url = "path:/home/taneb/repos/nix-secrets";
+      url = "git+ssh://git@github.com/Kamaroth92/nix-secrets.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -39,12 +43,14 @@
       self,
       nixpkgs,
       home-manager,
+      nix-darwin,
       nix-secrets,
       deploy-rs,
       ...
     }@inputs:
     let
       system = "x86_64-linux";
+      darwinSystem = "aarch64-darwin";
 
       # Soft secrets from nix-secrets; hard secrets arrive via sops-nix.
       secrets = nix-secrets;
@@ -95,6 +101,18 @@
             }
           ];
         };
+
+      # nix-darwin hosts (macOS) live under hosts/darwin/<hostname>/default.nix.
+      mkDarwin =
+        hostname:
+        nix-darwin.lib.darwinSystem {
+          system = darwinSystem;
+          specialArgs = {
+            inherit inputs secrets;
+            lib = customLib;
+          };
+          modules = [ (customLib.custom.relativeToRoot "hosts/darwin/${hostname}") ];
+        };
     in
     {
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
@@ -102,6 +120,10 @@
       nixosConfigurations = {
         melchior = mkHost "melchior";
         wsl-builder = mkHost "wsl-builder";
+      };
+
+      darwinConfigurations = {
+        "tbarriball-941LCQ" = mkDarwin "tbarriball-941LCQ";
       };
 
       homeConfigurations = {

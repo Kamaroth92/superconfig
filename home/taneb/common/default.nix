@@ -34,8 +34,8 @@
   programs.git = {
     settings = {
       user = {
-        name = secrets.users.taneb.userFullName;
-        email = secrets.users.taneb.email;
+        name = secrets.users.${config.home.username}.userFullName;
+        email = secrets.users.${config.home.username}.email;
       };
     };
   };

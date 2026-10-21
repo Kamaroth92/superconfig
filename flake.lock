@@ -75,6 +75,27 @@
         "type": "github"
       }
     },
+    "nix-darwin": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1783744694,
+        "narHash": "sha256-2cp6N3rrwnGYLTx9l6N+NI+kwrCWxvJUbj5WJhvB29A=",
+        "owner": "LnL7",
+        "repo": "nix-darwin",
+        "rev": "c3e90c89649b07d1a96e4b9dd6cd0d6e44b91a74",
+        "type": "github"
+      },
+      "original": {
+        "owner": "LnL7",
+        "ref": "nix-darwin-26.05",
+        "repo": "nix-darwin",
+        "type": "github"
+      }
+    },
     "nix-secrets": {
       "inputs": {
         "nixpkgs": [
@@ -82,14 +103,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1792413696,
-        "narHash": "sha256-jGnKE2m0FozrseP+XONoYcPKjMkzEKiaun96phdnuJ4=",
-        "path": "/home/taneb/repos/nix-secrets",
-        "type": "path"
+        "lastModified": 1792411040,
+        "narHash": "sha256-sq82in7wO7nuvukgDw3U7aRS/CdtqxzRG7XjjRv2k3k=",
+        "ref": "refs/heads/main",
+        "rev": "5318a9c5779796f4be1be418345415cbe2fa1471",
+        "revCount": 4,
+        "type": "git",
+        "url": "ssh://git@github.com/Kamaroth92/nix-secrets.git"
       },
       "original": {
-        "path": "/home/taneb/repos/nix-secrets",
-        "type": "path"
+        "type": "git",
+        "url": "ssh://git@github.com/Kamaroth92/nix-secrets.git"
       }
     },
     "nixos-wsl": {
@@ -149,6 +173,7 @@
       "inputs": {
         "deploy-rs": "deploy-rs",
         "home-manager": "home-manager",
+        "nix-darwin": "nix-darwin",
         "nix-secrets": "nix-secrets",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",
